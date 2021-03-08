@@ -20,21 +20,25 @@ import java.util.List;
 
 public class FacebookAPIHandler {
 
-    private final CallbackManager callbackManager;
-    private boolean loggedIn = false;
+    private static CallbackManager callbackManager;
+    private static FacebookAPIHandler instance = null;
 
     public interface FacebookAPIHandlerCB {
         void result(GraphResponse obj);
+
     }
 
-
-    //NEED LATER REFACTOR 6MAR
-    @SuppressLint("SetTextI18n")
-    public FacebookAPIHandler() {
+    private FacebookAPIHandler() {
         callbackManager = CallbackManager.Factory.create();
     }
 
-    public void login(Button btn,Activity act,List<String> perms,FacebookCallback<LoginResult> re) {
+    public static FacebookAPIHandler getInstance() {
+        if (instance == null)
+            instance = new FacebookAPIHandler();
+        return instance;
+    }
+
+    public void login(Button btn, Activity act, List<String> perms, FacebookCallback<LoginResult> re) {
 
         btn.setOnClickListener(e -> {
             LoginManager.getInstance().logInWithReadPermissions(act, perms);
@@ -43,7 +47,6 @@ public class FacebookAPIHandler {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                loggedIn = true;
                 re.onSuccess(loginResult);
             }
 
@@ -64,12 +67,11 @@ public class FacebookAPIHandler {
 
     public void logout() {
         LoginManager.getInstance().logOut();
-        loggedIn = false;
     }
 
     //Function to send api calls and get the response
     public void setBtnGraphRequest(Button btn, String endPoint, Bundle bundle, FacebookAPIHandlerCB cb) {
-        if (AccessToken.getCurrentAccessToken() != null && loggedIn)
+        if (AccessToken.getCurrentAccessToken() != null)
             btn.setOnClickListener(e -> {
                 GraphRequest request = GraphRequest.newGraphPathRequest(
                         AccessToken.getCurrentAccessToken(),
@@ -81,11 +83,12 @@ public class FacebookAPIHandler {
 
     }
 
+    public boolean hasToken() {
+        return AccessToken.getCurrentAccessToken() != null;
+    }
+
     public CallbackManager getCallbackManager() {
         return callbackManager;
     }
 
-    public boolean isLoggedIn() {
-        return loggedIn;
-    }
 }
