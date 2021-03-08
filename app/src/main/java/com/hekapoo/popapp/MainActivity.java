@@ -7,11 +7,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
 import com.hekapoo.popapp.APIHandler.FacebookAPIHandler;
+import com.hekapoo.popapp.Charts.ChartsActivity;
 
 import java.util.Arrays;
 import java.util.List;
 
+//PURPOSE: Log in/out of fb/twitter
 public class MainActivity extends AppCompatActivity {
 
     FacebookAPIHandler facebookAPIHandler;
@@ -21,20 +26,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button fbLoginBtn = findViewById(R.id.logBtn);
+        Button fbLoginBtn = findViewById(R.id.fb_log_btn);
 
         List<String> perms = Arrays.asList("email", "public_profile", "pages_manage_posts", "user_posts");
 
-        facebookAPIHandler = new FacebookAPIHandler(this, fbLoginBtn, perms);
+        facebookAPIHandler = new FacebookAPIHandler();
 
-        Button btn1 = findViewById(R.id.dataExtract);
+        facebookAPIHandler.login(fbLoginBtn, this, perms, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Intent intent = new Intent(MainActivity.this, ChartsActivity.class);
+                startActivity(intent);
+            }
 
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "reactions.summary(true),comments.summary(true)");
+            @Override
+            public void onCancel() {
+                Log.d("fb_log", "onCancel: user canceled" );
 
-        facebookAPIHandler.setBtnGraphRequest(btn1, "/me/posts", parameters, (response) -> {
-            Log.d("resp", "Response: " + response.toString());
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.d("fb_log", "onError: something happened during the login" );
+            }
         });
+
 
 
     }
