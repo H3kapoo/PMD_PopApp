@@ -118,7 +118,7 @@ public class ChartModel {
        // column.tooltip().background().fill("#ffffff00");
 
         cartesian.animation(true);
-        cartesian.title(extras.getString("TITLE"));
+     //   cartesian.title(extras.getString("TITLE"));
       //  cartesian.title().fontColor("#fff");
 
         cartesian.yScale().minimum(0d);

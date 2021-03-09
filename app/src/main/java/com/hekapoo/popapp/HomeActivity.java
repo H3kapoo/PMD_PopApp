@@ -1,10 +1,14 @@
 package com.hekapoo.popapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.anychart.AnyChartView;
 import com.anychart.chart.common.dataentry.DataEntry;
@@ -16,7 +20,10 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
+    SwipeRefreshLayout refresher;
     Button homeBtn, chartsBtn;
+    TextView homeStatusTextView;
+    ImageView homeStatusImageView;
     AnyChartView homeChart;
 
     @Override
@@ -27,6 +34,18 @@ public class HomeActivity extends AppCompatActivity {
         homeBtn = findViewById(R.id.home_btn);
         chartsBtn = findViewById(R.id.charts_btn);
         homeChart = findViewById(R.id.home_chart_view);
+        homeStatusTextView = findViewById(R.id.homeStatusTextView);
+        homeStatusImageView = findViewById(R.id.homeStatusImageView);
+        refresher = findViewById(R.id.refresher);
+
+        refresher.setOnRefreshListener(()->{
+            refresher.setRefreshing(false);
+        });
+
+        chartsBtn.setOnClickListener(e->{
+            Intent intent = new Intent(HomeActivity.this, ChartsActivity.class);
+            startActivity(intent);
+        });
 
         List<DataEntry> column_data = new ArrayList<>();
 
