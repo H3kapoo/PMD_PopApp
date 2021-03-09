@@ -104,24 +104,37 @@ public class ChartModel {
     }
 
     private Cartesian columnChart() {
-        Cartesian cartesian = AnyChart.column();
-        cartesian.background().fill("#5CDB95"); //thats how u change bg color
-        Column column = cartesian.column(data);
 
-        column.tooltip().titleFormat("{%X}").position(Position.CENTER_BOTTOM).anchor(Anchor.CENTER_BOTTOM).offsetX(0d).offsetY(5d).format("${%Value}{groupsSeparator: }");
+        Cartesian cartesian = AnyChart.column();
+
+        cartesian.background().fill("#5CDB95");
+        Column column = cartesian.column(data);
+        column.fill("#fff");
+        column.stroke("#fff");
+
+        column.tooltip().titleFormat("{%X}").position(Position.CENTER).anchor(Anchor.CENTER).offsetX(0d).offsetY(5d).format("{%Value}");
+        column.tooltip().vAlign("center");
+        column.tooltip().hAlign("center");
+        column.tooltip().background().fill("#ffffff00");
 
         cartesian.animation(true);
         cartesian.title(extras.getString("TITLE"));
+        cartesian.title().fontColor("#fff");
+        cartesian.title().fontFamily("tom");
 
         cartesian.yScale().minimum(0d);
 
-        cartesian.yAxis(0).labels().format("${%Value}{groupsSeparator: }");
+        cartesian.yAxis(0).labels().format("{%Value} ");
 
         cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
         cartesian.interactivity().hoverMode(HoverMode.BY_X);
 
-        cartesian.xAxis(0).title(extras.getString("XTITLE"));
-        cartesian.yAxis(0).title(extras.getString("YTITLE"));
+        cartesian.xAxis(0).title().fontColor("#fff");
+        cartesian.xAxis(0).labels().fontColor("#fff");
+
+        cartesian.yAxis(0).title().fontColor("#fff");
+        cartesian.yAxis(0).labels().fontColor("#fff");
+
 
         return cartesian;
     }

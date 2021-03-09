@@ -31,15 +31,11 @@ public class HomeActivity extends AppCompatActivity {
         List<DataEntry> column_data = new ArrayList<>();
 
         //column
-        column_data.add(new ValueDataEntry("Rouge", 80540));
-        column_data.add(new ValueDataEntry("Foundation", 94190));
-        column_data.add(new ValueDataEntry("Mascara", 102610));
-        column_data.add(new ValueDataEntry("Lip gloss", 110430));
+        column_data.add(new ValueDataEntry("Reactions", 14000));
+        column_data.add(new ValueDataEntry("Comments", 4000));
 
         Bundle column_extras = new Bundle();
-        column_extras.putString("TITLE", "ceva titlu");
-        column_extras.putString("XTITLE", "pe x aicea");
-        column_extras.putString("YTITLE", "pe y aicea");
+        column_extras.putString("TITLE", "Column Data Chart");
 
         ChartModel column_chart = new ChartModel("COLUMN", column_data, column_extras);
         homeChart.setChart(column_chart.populate());
