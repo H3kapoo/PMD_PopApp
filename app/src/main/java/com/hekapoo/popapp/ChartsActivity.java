@@ -1,4 +1,4 @@
-package com.hekapoo.popapp.Charts;
+package com.hekapoo.popapp;
 
 import android.os.Bundle;
 
@@ -27,7 +27,7 @@ public class ChartsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_social);
+        setContentView(R.layout.charts_layout);
         swipeRefreshLayout = findViewById(R.id.refresher);
 
         ArrayList<ChartModel> charts = new ArrayList<>();

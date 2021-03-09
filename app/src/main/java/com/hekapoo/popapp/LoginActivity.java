@@ -7,23 +7,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
-import com.facebook.AccessToken;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.hekapoo.popapp.APIHandler.FacebookAPIHandler;
-import com.hekapoo.popapp.Charts.ChartsActivity;
 
 import java.util.Arrays;
 import java.util.List;
 
 //PURPOSE: Log in/out of fb/twitter
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.login_layout);
 
         Button fbLoginBtn = findViewById(R.id.fb_log_btn);
 
@@ -32,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         FacebookAPIHandler.getInstance().login(fbLoginBtn, this, perms, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Intent intent = new Intent(MainActivity.this, ChartsActivity.class);
+                Intent intent = new Intent(LoginActivity.this, ChartsActivity.class);
                 startActivity(intent);
             }
 

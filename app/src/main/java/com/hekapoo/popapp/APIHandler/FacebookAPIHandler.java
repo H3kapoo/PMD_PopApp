@@ -1,11 +1,9 @@
 package com.hekapoo.popapp.APIHandler;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -41,12 +39,18 @@ public class FacebookAPIHandler {
     public void login(Button btn, Activity act, List<String> perms, FacebookCallback<LoginResult> re) {
 
         btn.setOnClickListener(e -> {
-            LoginManager.getInstance().logInWithReadPermissions(act, perms);
+            if (!hasToken())
+                LoginManager.getInstance().logInWithReadPermissions(act, perms);
+            else {
+                LoginManager.getInstance().logOut();
+                btn.setText("LOG INTO FACEBOOK");
+            }
         });
 
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                btn.setText("LOG OUT FACEBOOK");
                 re.onSuccess(loginResult);
             }
 
@@ -65,13 +69,9 @@ public class FacebookAPIHandler {
         });
     }
 
-    public void logout() {
-        LoginManager.getInstance().logOut();
-    }
-
     //Function to send api calls and get the response
     public void setBtnGraphRequest(Button btn, String endPoint, Bundle bundle, FacebookAPIHandlerCB cb) {
-        if (AccessToken.getCurrentAccessToken() != null)
+        if (hasToken())
             btn.setOnClickListener(e -> {
                 GraphRequest request = GraphRequest.newGraphPathRequest(
                         AccessToken.getCurrentAccessToken(),
@@ -84,7 +84,7 @@ public class FacebookAPIHandler {
     }
 
     public boolean hasToken() {
-        return AccessToken.getCurrentAccessToken() != null;
+        return AccessToken.getCurrentAccessToken() == null ? false : true;
     }
 
     public CallbackManager getCallbackManager() {

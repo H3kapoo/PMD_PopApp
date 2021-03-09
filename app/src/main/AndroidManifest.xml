@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PopApp">
-        <activity android:name=".MainActivity">
+        <activity android:name=".HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,8 +21,12 @@
             android:value="@string/facebook_app_id"/>
 
         <activity
-            android:name=".Charts.ChartsActivity"
+            android:name=".ChartsActivity"
             android:label="PopApp" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="PopApp" />
+
 
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=

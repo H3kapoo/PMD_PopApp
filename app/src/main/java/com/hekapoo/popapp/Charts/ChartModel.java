@@ -31,6 +31,7 @@ import com.anychart.graphics.vector.LinearGradientStroke;
 import com.anychart.graphics.vector.SolidFill;
 import com.anychart.graphics.vector.Stroke;
 import com.anychart.scales.OrdinalColor;
+import com.hekapoo.popapp.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +105,7 @@ public class ChartModel {
 
     private Cartesian columnChart() {
         Cartesian cartesian = AnyChart.column();
-
+        cartesian.background().fill("#5CDB95"); //thats how u change bg color
         Column column = cartesian.column(data);
 
         column.tooltip().titleFormat("{%X}").position(Position.CENTER_BOTTOM).anchor(Anchor.CENTER_BOTTOM).offsetX(0d).offsetY(5d).format("${%Value}{groupsSeparator: }");

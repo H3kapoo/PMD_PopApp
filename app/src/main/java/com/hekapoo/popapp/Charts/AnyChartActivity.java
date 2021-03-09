@@ -25,7 +25,7 @@ public class AnyChartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_social);
+        setContentView(R.layout.charts_layout);
 
         AnyChartView anyChartView = findViewById(R.id.progress_bar);
         anyChartView.setProgressBar(findViewById(R.id.progress_bar));
