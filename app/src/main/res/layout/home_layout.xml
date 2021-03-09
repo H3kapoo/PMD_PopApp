@@ -1,49 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/app_bg">
+    android:background="@color/app_bg"
+    android:orientation="vertical">
 
 
     <LinearLayout
-        android:layout_weight="0.96"
-        android:id="@+id/btns_layout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_weight="0.13"
+        android:paddingTop="25dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp">
 
-      <com.anychart.AnyChartView
-          android:padding="3dp"
-          android:id="@+id/home_chart_view"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent">
+        <androidx.cardview.widget.CardView
+            app:cardBackgroundColor="#F5F9EF"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="25dp">
 
-      </com.anychart.AnyChartView>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_weight="0.04"
+
+        android:id="@+id/btns_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.92"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            app:cardElevation="0dp"
+            app:cardCornerRadius="30dp"
+            app:cardBackgroundColor="#F5F9EF"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.anychart.AnyChartView
+                android:id="@+id/home_chart_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </com.anychart.AnyChartView>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/btns_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.01"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/charts_btn"
+        <androidx.cardview.widget.CardView
+            app:cardBackgroundColor="#303030"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:text="Charts" />
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/home_btn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:text="HOME" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_marginTop="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <Button
+                    android:background="#F5F9EF"
+                    android:textSize="20sp"
+                    android:textColor="#303030"
+                    android:fontFamily="@font/tomorrow_regular"
+                    android:id="@+id/charts_btn"
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Charts" />
+
+                <Button
+                    android:textSize="20sp"
+                    android:textColor="#303030"
+                    android:id="@+id/home_btn"
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#F5F9EF"
+                    android:fontFamily="@font/tomorrow_regular"
+                    android:text="Home" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 </LinearLayout>

@@ -107,20 +107,19 @@ public class ChartModel {
 
         Cartesian cartesian = AnyChart.column();
 
-        cartesian.background().fill("#5CDB95");
+        cartesian.background().fill("#F5F9EF");
         Column column = cartesian.column(data);
-        column.fill("#fff");
-        column.stroke("#fff");
+     //   column.fill("#fff");
+     //   column.stroke("#fff");
 
         column.tooltip().titleFormat("{%X}").position(Position.CENTER).anchor(Anchor.CENTER).offsetX(0d).offsetY(5d).format("{%Value}");
         column.tooltip().vAlign("center");
         column.tooltip().hAlign("center");
-        column.tooltip().background().fill("#ffffff00");
+       // column.tooltip().background().fill("#ffffff00");
 
         cartesian.animation(true);
         cartesian.title(extras.getString("TITLE"));
-        cartesian.title().fontColor("#fff");
-        cartesian.title().fontFamily("tom");
+      //  cartesian.title().fontColor("#fff");
 
         cartesian.yScale().minimum(0d);
 
@@ -129,11 +128,11 @@ public class ChartModel {
         cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
         cartesian.interactivity().hoverMode(HoverMode.BY_X);
 
-        cartesian.xAxis(0).title().fontColor("#fff");
-        cartesian.xAxis(0).labels().fontColor("#fff");
+       // cartesian.xAxis(0).title().fontColor("#fff");
+        //cartesian.xAxis(0).labels().fontColor("#fff");
 
-        cartesian.yAxis(0).title().fontColor("#fff");
-        cartesian.yAxis(0).labels().fontColor("#fff");
+        //cartesian.yAxis(0).title().fontColor("#fff");
+        //cartesian.yAxis(0).labels().fontColor("#fff");
 
 
         return cartesian;
