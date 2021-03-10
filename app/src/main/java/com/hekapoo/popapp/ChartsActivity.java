@@ -48,10 +48,8 @@ public class ChartsActivity extends AppCompatActivity {
         List<DataEntry> column_data = new ArrayList<>();
 
         //column
-        column_data.add(new ValueDataEntry("Rouge", 80540));
-        column_data.add(new ValueDataEntry("Foundation", 94190));
-        column_data.add(new ValueDataEntry("Mascara", 102610));
-        column_data.add(new ValueDataEntry("Lip gloss", 110430));
+        column_data.add(new ValueDataEntry("Reactions", 223));
+        column_data.add(new ValueDataEntry("Comments", 43));
 
         Bundle column_extras = new Bundle();
         column_extras.putString("TITLE", "ceva titlu");
@@ -60,15 +58,12 @@ public class ChartsActivity extends AppCompatActivity {
 
         ChartModel column_chart = new ChartModel("COLUMN", column_data, column_extras);
 
-        charts.add(column_chart);
 
         //pie chart
         List<DataEntry> pie_data = new ArrayList<>();
-        pie_data.add(new ValueDataEntry("Apples", 6371664));
-        pie_data.add(new ValueDataEntry("Pears", 789622));
-        pie_data.add(new ValueDataEntry("Bananas", 7216301));
-        pie_data.add(new ValueDataEntry("Grapes", 1486621));
-        pie_data.add(new ValueDataEntry("Oranges", 1200000));
+        pie_data.add(new ValueDataEntry("Reactions", 130));
+        pie_data.add(new ValueDataEntry("Comments", 66));
+
 
         Bundle pie_extras = new Bundle();
         pie_extras.putString("TITLE", "ceva titlu");
@@ -76,39 +71,26 @@ public class ChartsActivity extends AppCompatActivity {
 
         ChartModel pie_chart = new ChartModel("PIE", pie_data, pie_extras);
 
-        charts.add(pie_chart);
 
         //tag_cloud
         List<DataEntry> tag_data = new ArrayList<>();
-        tag_data.add(new CategoryValueDataEntry("China", "asia", 1383220000));
-        tag_data.add(new CategoryValueDataEntry("India", "asia", 1316000000));
-        tag_data.add(new CategoryValueDataEntry("United States", "america", 324982000));
-        tag_data.add(new CategoryValueDataEntry("Indonesia", "asia", 263510000));
-        tag_data.add(new CategoryValueDataEntry("Brazil", "america", 207505000));
-        tag_data.add(new CategoryValueDataEntry("Pakistan", "asia", 196459000));
-        tag_data.add(new CategoryValueDataEntry("Nigeria", "africa", 191836000));
+        tag_data.add(new CategoryValueDataEntry("Wow", "31 mar", 1));
+        tag_data.add(new CategoryValueDataEntry("HaHa", "12 mar", 3));
+        tag_data.add(new CategoryValueDataEntry("GGWP", "3 aug", 4));
+        tag_data.add(new CategoryValueDataEntry("Nic3e", "5 apr", 5));
+        tag_data.add(new CategoryValueDataEntry("Nic3e", "7 apr", 5));
+        tag_data.add(new CategoryValueDataEntry("Nic43e", "8 apr", 5));
+        tag_data.add(new CategoryValueDataEntry("Ni43ce", "9 apr", 5));
+
 
         Bundle tag_extras = new Bundle();
         tag_extras.putString("TITLE", "ceva titlu");
 
         ChartModel tag_chart = new ChartModel("TAG_CLOUD", tag_data, tag_extras);
 
+        charts.add(column_chart);
+        charts.add(pie_chart);
         charts.add(tag_chart);
-
-        //funnel
-        List<DataEntry> funnel_data = new ArrayList<>();
-        funnel_data.add(new ValueDataEntry("Website Visits", 528756));
-        funnel_data.add(new ValueDataEntry("Downloads", 164052));
-        funnel_data.add(new ValueDataEntry("Valid Contacts", 112167));
-        funnel_data.add(new ValueDataEntry("Interested to Buy", 79128));
-        funnel_data.add(new ValueDataEntry("Purchased", 79128));
-
-        Bundle funnel_extras = new Bundle();
-        funnel_extras.putString("TITLE", "ceva titlu");
-
-        ChartModel funnel_chart = new ChartModel("FUNNEL", funnel_data, funnel_extras);
-
-        charts.add(funnel_chart);
 
 
         swipeRefreshLayout.setOnRefreshListener(() -> {

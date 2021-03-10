@@ -46,8 +46,7 @@ import java.util.List;
 
 public class ChartModel {
 
-//    final Calendar myCalendar = Calendar.getInstance();
-//    DatePickerDialog.OnDateSetListener startDatePicked,endDatePicked;
+
     private String type;
     private List<DataEntry> data;
     private Bundle extras;
@@ -56,65 +55,18 @@ public class ChartModel {
         this.type = type;
         this.data = data;
         this.extras = extras;
-
-//        startDatePicked = (view, year, monthOfYear, dayOfMonth) -> {
-//            // TODO Auto-generated method stub
-//            myCalendar.set(Calendar.YEAR, year);
-//            myCalendar.set(Calendar.MONTH, monthOfYear);
-//            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-//            Log.d("startdate", "ChartModel: ");
-//        };
-//
-//        endDatePicked = (view, year, monthOfYear, dayOfMonth) -> {
-//            // TODO Auto-generated method stub
-//            myCalendar.set(Calendar.YEAR, year);
-//            myCalendar.set(Calendar.MONTH, monthOfYear);
-//            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-//            Log.d("enddate", "ChartModel: ");
-//        };
-
-    }
-
-//    protected void handleStartDate(View e) {
-//        // TODO Auto-generated method stub
-//        new DatePickerDialog(e.getContext(), startDatePicked, myCalendar
-//                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-//                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-//    }
-//
-//    protected void handleEndDate(View e) {
-//        // TODO Auto-generated method stub
-//        new DatePickerDialog(e.getContext(), endDatePicked, myCalendar
-//                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-//                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-//    }
-
-    private Funnel funnelChart() {
-        Funnel funnel = AnyChart.funnel();
-        funnel.data(data);
-
-        funnel.margin(new String[]{"10", "20%", "10", "20%"});
-        funnel.baseWidth("70%")
-                .neckWidth("17%");
-
-        funnel.labels()
-                .position("outsideleft")
-                .format("{%X} - {%Value}");
-
-        //funnel.animation(true);
-
-        return funnel;
     }
 
     private TagCloud tagCloudChart() {
         TagCloud tagCloud = AnyChart.tagCloud();
+        tagCloud.background().fill("#F5F9EF");
 
-        tagCloud.title(extras.getString("TITLE"));
+
+        //tagCloud.title(extras.getString("TITLE"));
 
         OrdinalColor ordinalColor = OrdinalColor.instantiate();
-        ordinalColor.colors(new String[]{
-                "#26959f", "#f18126", "#3b8ad8", "#60727b", "#e24b26"
-        });
+        ordinalColor.colors(new String[]{"#26959f", "#f18126", "#3b8ad8", "#60727b", "#e24b26"});
+
         tagCloud.colorScale(ordinalColor);
         tagCloud.angles(new Double[]{-90d, 0d, 90d});
 
@@ -127,17 +79,17 @@ public class ChartModel {
 
     private Pie pieChart() {
         Pie pie = AnyChart.pie();
+        pie.background().fill("#F5F9EF");
 
         pie.data(data);
-
-        pie.title("Fruits imported in 2015 (in kg)");
-        pie.title(extras.getString("TITLE"));
-
+        pie.title().text("Pie Chart");
+        // pie.title(extras.getString("TITLE"));
 
         pie.labels().position("outside");
+        pie.labels().fontColor("#303030");
 
-        pie.legend().title().enabled(true);
-        pie.legend().title().text(extras.getString("SUB_TITLE")).padding(0d, 0d, 10d, 0d);
+        pie.legend().title().enabled(false);
+        // pie.legend().title().text(extras.getString("SUB_TITLE")).padding(0d, 0d, 10d, 0d);
 
         pie.legend().position("center-bottom").itemsLayout(LegendLayout.HORIZONTAL).align(Align.CENTER);
 
@@ -160,7 +112,7 @@ public class ChartModel {
 
         cartesian.animation(true);
         //   cartesian.title(extras.getString("TITLE"));
-        //  cartesian.title().fontColor("#fff");
+        cartesian.title().fontColor("#303030");
 
         cartesian.yScale().minimum(0d);
 
@@ -170,10 +122,10 @@ public class ChartModel {
         cartesian.interactivity().hoverMode(HoverMode.BY_X);
 
         // cartesian.xAxis(0).title().fontColor("#fff");
-        //cartesian.xAxis(0).labels().fontColor("#fff");
+        cartesian.xAxis(0).labels().fontColor("#303030");
 
         //cartesian.yAxis(0).title().fontColor("#fff");
-        //cartesian.yAxis(0).labels().fontColor("#fff");
+        cartesian.yAxis(0).labels().fontColor("#303030");
 
 
         return cartesian;
@@ -188,8 +140,6 @@ public class ChartModel {
                 return pieChart();
             case "TAG_CLOUD":
                 return tagCloudChart();
-            case "FUNNEL":
-                return funnelChart();
             default:
                 return null;
         }
