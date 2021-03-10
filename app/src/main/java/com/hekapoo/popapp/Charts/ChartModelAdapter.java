@@ -1,8 +1,10 @@
 package com.hekapoo.popapp.Charts;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,7 +22,7 @@ public class ChartModelAdapter extends RecyclerView.Adapter<ChartModelAdapter.Vi
         this.charts = charts;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View view;
         public final AnyChartView chartView;
 
@@ -42,6 +44,8 @@ public class ChartModelAdapter extends RecyclerView.Adapter<ChartModelAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChartModel chart = charts.get(position);
         holder.chartView.setChart(chart.populate());
+//        holder.view.findViewById(R.id.startDate_btn).setOnClickListener(chart::handleStartDate);
+//        holder.view.findViewById(R.id.endDate_btn).setOnClickListener(chart::handleEndDate);
 
     }
 

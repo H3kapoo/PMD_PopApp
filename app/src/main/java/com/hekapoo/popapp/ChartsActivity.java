@@ -1,6 +1,9 @@
 package com.hekapoo.popapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,14 +26,24 @@ public class ChartsActivity extends AppCompatActivity {
     private RecyclerView recyclerViewCharts;
     private RecyclerView.Adapter<ChartModelAdapter.ViewHolder> chartAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ArrayList<ChartModel> charts;
+    private Button homeButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.charts_layout);
-        swipeRefreshLayout = findViewById(R.id.refresher);
 
-        ArrayList<ChartModel> charts = new ArrayList<>();
+        swipeRefreshLayout = findViewById(R.id.refresher);
+        homeButton = findViewById(R.id.home_btn);
+
+        homeButton.setOnClickListener(e->{
+            Intent intent = new Intent(ChartsActivity.this, HomeActivity.class);
+            startActivity(intent);
+        });
+
+        //TODO: Automate this on refres and on activity load
+        charts = new ArrayList<>();
 
         List<DataEntry> column_data = new ArrayList<>();
 
@@ -99,8 +112,7 @@ public class ChartsActivity extends AppCompatActivity {
 
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
-
-            charts.add(column_chart);
+                //TODO: Get data for all charts on refresh from APIs
             chartAdapter = new ChartModelAdapter(charts);
             this.recyclerViewCharts.setAdapter(chartAdapter);
             swipeRefreshLayout.setRefreshing(false);
@@ -113,4 +125,5 @@ public class ChartsActivity extends AppCompatActivity {
         this.recyclerViewCharts.setAdapter(chartAdapter);
 
     }
+
 }

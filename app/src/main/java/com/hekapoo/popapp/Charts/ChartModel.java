@@ -1,6 +1,11 @@
 package com.hekapoo.popapp.Charts;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
@@ -31,13 +36,18 @@ import com.anychart.graphics.vector.LinearGradientStroke;
 import com.anychart.graphics.vector.SolidFill;
 import com.anychart.graphics.vector.Stroke;
 import com.anychart.scales.OrdinalColor;
+import com.hekapoo.popapp.ChartsActivity;
+import com.hekapoo.popapp.HomeActivity;
 import com.hekapoo.popapp.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ChartModel {
 
+//    final Calendar myCalendar = Calendar.getInstance();
+//    DatePickerDialog.OnDateSetListener startDatePicked,endDatePicked;
     private String type;
     private List<DataEntry> data;
     private Bundle extras;
@@ -46,7 +56,38 @@ public class ChartModel {
         this.type = type;
         this.data = data;
         this.extras = extras;
+
+//        startDatePicked = (view, year, monthOfYear, dayOfMonth) -> {
+//            // TODO Auto-generated method stub
+//            myCalendar.set(Calendar.YEAR, year);
+//            myCalendar.set(Calendar.MONTH, monthOfYear);
+//            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//            Log.d("startdate", "ChartModel: ");
+//        };
+//
+//        endDatePicked = (view, year, monthOfYear, dayOfMonth) -> {
+//            // TODO Auto-generated method stub
+//            myCalendar.set(Calendar.YEAR, year);
+//            myCalendar.set(Calendar.MONTH, monthOfYear);
+//            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//            Log.d("enddate", "ChartModel: ");
+//        };
+
     }
+
+//    protected void handleStartDate(View e) {
+//        // TODO Auto-generated method stub
+//        new DatePickerDialog(e.getContext(), startDatePicked, myCalendar
+//                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+//                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+//    }
+//
+//    protected void handleEndDate(View e) {
+//        // TODO Auto-generated method stub
+//        new DatePickerDialog(e.getContext(), endDatePicked, myCalendar
+//                .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+//                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+//    }
 
     private Funnel funnelChart() {
         Funnel funnel = AnyChart.funnel();
@@ -109,17 +150,17 @@ public class ChartModel {
 
         cartesian.background().fill("#F5F9EF");
         Column column = cartesian.column(data);
-     //   column.fill("#fff");
-     //   column.stroke("#fff");
+        //   column.fill("#fff");
+        //   column.stroke("#fff");
 
         column.tooltip().titleFormat("{%X}").position(Position.CENTER).anchor(Anchor.CENTER).offsetX(0d).offsetY(5d).format("{%Value}");
         column.tooltip().vAlign("center");
         column.tooltip().hAlign("center");
-       // column.tooltip().background().fill("#ffffff00");
+        // column.tooltip().background().fill("#ffffff00");
 
         cartesian.animation(true);
-     //   cartesian.title(extras.getString("TITLE"));
-      //  cartesian.title().fontColor("#fff");
+        //   cartesian.title(extras.getString("TITLE"));
+        //  cartesian.title().fontColor("#fff");
 
         cartesian.yScale().minimum(0d);
 
@@ -128,7 +169,7 @@ public class ChartModel {
         cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
         cartesian.interactivity().hoverMode(HoverMode.BY_X);
 
-       // cartesian.xAxis(0).title().fontColor("#fff");
+        // cartesian.xAxis(0).title().fontColor("#fff");
         //cartesian.xAxis(0).labels().fontColor("#fff");
 
         //cartesian.yAxis(0).title().fontColor("#fff");
