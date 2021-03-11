@@ -27,7 +27,7 @@ public class ChartsActivity extends AppCompatActivity {
     private RecyclerView.Adapter<ChartModelAdapter.ViewHolder> chartAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<ChartModel> charts;
-    private Button homeButton;
+    private Button homeButton,settingsBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,11 +36,19 @@ public class ChartsActivity extends AppCompatActivity {
 
         swipeRefreshLayout = findViewById(R.id.refresher);
         homeButton = findViewById(R.id.home_btn);
+        settingsBtn = findViewById(R.id.settings_btn);
+
 
         homeButton.setOnClickListener(e->{
             Intent intent = new Intent(ChartsActivity.this, HomeActivity.class);
             startActivity(intent);
         });
+
+        settingsBtn.setOnClickListener(e->{
+            Intent intent = new Intent(ChartsActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+
 
         //TODO: Automate this on refres and on activity load
         charts = new ArrayList<>();
@@ -107,5 +115,4 @@ public class ChartsActivity extends AppCompatActivity {
         this.recyclerViewCharts.setAdapter(chartAdapter);
 
     }
-
 }

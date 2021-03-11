@@ -54,6 +54,11 @@ public class HomeActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        settingsBtn.setOnClickListener(e -> {
+            Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+
         List<DataEntry> column_data = new ArrayList<>();
 
         //column

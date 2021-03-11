@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/app_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+
+            android:id="@+id/btns_layout22"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="25dp"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#F5F9EF"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/tomorrow_regular"
+                        android:text="Change home chart"
+                        android:textAlignment="center"
+                        android:textColor="#303030"
+                        android:textSize="24sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="10dp"
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/button322"
+                                style="@style/ButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="#82EEB2"
+                                android:fontFamily="@font/tomorrow_regular"
+                                android:text="Log into Facebook"
+                                android:textColor="#303030"
+                                android:textSize="18sp" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="10dp"
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/button32e2"
+                                style="@style/ButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="#82EEB2"
+                                android:fontFamily="@font/tomorrow_regular"
+                                android:text="Log into Facebook"
+                                android:textColor="#303030"
+                                android:textSize="18sp" />
+                        </androidx.cardview.widget.CardView>
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="10dp"
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/button3222"
+                                style="@style/ButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="#82EEB2"
+                                android:fontFamily="@font/tomorrow_regular"
+                                android:text="Log into Twitter"
+                                android:textColor="#303030"
+                                android:textSize="18sp" />
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:id="@+id/btns_layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="25dp"
+            android:layout_weight="0.92"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#F5F9EF"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/tomorrow_regular"
+                        android:text="Accounts option"
+                        android:textAlignment="center"
+                        android:textColor="#303030"
+                        android:textSize="24sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="10dp"
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/button3"
+                                style="@style/ButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="#82EEB2"
+                                android:fontFamily="@font/tomorrow_regular"
+                                android:text="Log into Facebook"
+                                android:textColor="#303030"
+                                android:textSize="18sp" />
+                        </androidx.cardview.widget.CardView>
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="20dp"
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="0dp">
+
+                            <Button
+                                android:id="@+id/button32"
+                                style="@style/ButtonStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="#82EEB2"
+                                android:fontFamily="@font/tomorrow_regular"
+                                android:text="Log into Twitter"
+                                android:textColor="#303030"
+                                android:textSize="18sp" />
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btns_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.01"
+            android:orientation="horizontal">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="#303030">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="1dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/charts_btn"
+                        style="@style/ButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#F5F9EF"
+                        android:fontFamily="@font/tomorrow_regular"
+                        android:text="Charts"
+                        android:textColor="#303030"
+                        android:textSize="20sp" />
+                    <Button
+                        android:id="@+id/home_btn"
+                        style="@style/ButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#F5F9EF"
+                        android:fontFamily="@font/tomorrow_regular"
+                        android:text="Home"
+                        android:textColor="#303030"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/settings_btn"
+                        style="@style/ButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#F5F9EF"
+                        android:fontFamily="@font/tomorrow_regular"
+                        android:text="Settings"
+                        android:textColor="#303030"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
