@@ -27,6 +27,11 @@ public class LoginActivity extends AppCompatActivity {
 
         List<String> perms = Arrays.asList("email", "public_profile", "pages_manage_posts", "user_posts");
 
+        if(FacebookAPIHandler.getInstance().hasToken()){
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+        }
+
         FacebookAPIHandler.getInstance().login(fbLoginBtn, this, perms, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {

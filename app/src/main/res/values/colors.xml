@@ -7,7 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="app_bg">#5CDB95</color>
-    <color name="text_col">#303030</color>
-    <color name="over_color">#80000000</color>
+    <color name="app_btn_gray">#A1A5A3</color>
+    <color name="app_background">#5CDB95</color>
+    <color name="app_light_green">#82EEB2</color>
+    <color name="app_text_color">#303030</color>
+    <color name="app_white_color">#F5F9EF</color>
 </resources>

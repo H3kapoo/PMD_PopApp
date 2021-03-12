@@ -36,6 +36,11 @@ public class FacebookAPIHandler {
         return instance;
     }
 
+    public void fastLogout() {
+        LoginManager.getInstance().logOut();
+        AccessToken.setCurrentAccessToken(null);
+    }
+
     public void login(Button btn, Activity act, List<String> perms, FacebookCallback<LoginResult> re) {
 
         btn.setOnClickListener(e -> {
@@ -43,13 +48,16 @@ public class FacebookAPIHandler {
                 LoginManager.getInstance().logInWithReadPermissions(act, perms);
             else {
                 LoginManager.getInstance().logOut();
-                btn.setText("LOG INTO FACEBOOK");
+                AccessToken.setCurrentAccessToken(null);
+                btn.setText("SIGN IN FACEBOOK");
             }
+
         });
 
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
                 btn.setText("LOG OUT FACEBOOK");
                 re.onSuccess(loginResult);
             }
@@ -69,7 +77,7 @@ public class FacebookAPIHandler {
         });
     }
 
-    //Function to send api calls and get the response
+    //Function to send api calls on btn click and get the response
     public void setBtnGraphRequest(Button btn, String endPoint, Bundle bundle, FacebookAPIHandlerCB cb) {
         if (hasToken())
             btn.setOnClickListener(e -> {
@@ -80,6 +88,19 @@ public class FacebookAPIHandler {
                 request.setParameters(bundle);
                 request.executeAsync();
             });
+
+    }
+
+    //Function to send api calls and get the response
+    public void sendGraphRequest(String endPoint, Bundle bundle, FacebookAPIHandlerCB cb) {
+        if (hasToken()) {
+            GraphRequest request = GraphRequest.newGraphPathRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    endPoint,
+                    cb::result);
+            request.setParameters(bundle);
+            request.executeAsync();
+        }
 
     }
 

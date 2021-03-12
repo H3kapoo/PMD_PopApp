@@ -5,7 +5,7 @@
     android:id="@+id/refresher"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_bg"
+    android:background="@color/app_background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -27,7 +27,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cardBackgroundColor="#F5F9EF"
+                app:cardBackgroundColor="@color/app_white_color"
                 app:cardCornerRadius="30dp"
                 app:cardElevation="0dp">
 
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                app:cardBackgroundColor="#303030">
+                app:cardBackgroundColor="@color/app_text_color">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,10 +74,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#F5F9EF"
+                        android:background="@color/app_white_color"
                         android:fontFamily="@font/tomorrow_regular"
                         android:text="Charts"
-                        android:textColor="#303030"
+                        android:textColor="@color/app_text_color"
                         android:textSize="20sp" />
 
                     <Button
@@ -86,10 +86,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#F5F9EF"
+                        android:background="@color/app_white_color"
                         android:fontFamily="@font/tomorrow_regular"
                         android:text="Home"
-                        android:textColor="#303030"
+                        android:textColor="@color/app_text_color"
                         android:textSize="20sp" />
 
                     <Button
@@ -98,10 +98,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#F5F9EF"
+                        android:background="@color/app_white_color"
                         android:fontFamily="@font/tomorrow_regular"
                         android:text="Settings"
-                        android:textColor="#303030"
+                        android:textColor="@color/app_text_color"
                         android:textSize="20sp" />
                 </LinearLayout>
 

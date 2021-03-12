@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:id="@+id/refresher"
     android:layout_height="match_parent"
-    android:background="@color/app_bg"
+    android:background="@color/app_background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -24,7 +24,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cardBackgroundColor="#F5F9EF"
+                app:cardBackgroundColor="@color/app_white_color"
                 app:cardCornerRadius="25dp"
                 app:cardElevation="0dp">
 
@@ -62,7 +62,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/tomorrow_regular"
                             android:text="Fans are amazed !"
-                            android:textColor="#303030"
+                            android:textColor="@color/app_text_color"
                             android:textSize="24sp" />
                     </LinearLayout>
 
@@ -85,9 +85,10 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/home_chart_holder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cardBackgroundColor="#F5F9EF"
+                app:cardBackgroundColor="@color/app_white_color"
                 app:cardCornerRadius="30dp"
                 app:cardElevation="0dp">
 
@@ -102,9 +103,9 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-                        android:text="Instagram"
+                        android:text="Facebook"
                         android:textAlignment="center"
-                        android:textColor="#303030"
+                        android:textColor="@color/app_text_color"
                         android:textSize="24sp" />
 
                     <com.anychart.AnyChartView
@@ -129,7 +130,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                app:cardBackgroundColor="#303030">
+                app:cardBackgroundColor="@color/app_text_color">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -143,10 +144,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#F5F9EF"
+                        android:background="@color/app_white_color"
                         android:fontFamily="@font/tomorrow_regular"
                         android:text="Charts"
-                        android:textColor="#303030"
+                        android:textColor="@color/app_text_color"
                         android:textSize="20sp" />
                     <Button
                         android:id="@+id/home_btn"
@@ -154,10 +155,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#F5F9EF"
+                        android:background="@color/app_white_color"
                         android:fontFamily="@font/tomorrow_regular"
                         android:text="Home"
-                        android:textColor="#303030"
+                        android:textColor="@color/app_text_color"
                         android:textSize="20sp" />
 
                     <Button
@@ -166,10 +167,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#F5F9EF"
+                        android:background="@color/app_white_color"
                         android:fontFamily="@font/tomorrow_regular"
                         android:text="Settings"
-                        android:textColor="#303030"
+                        android:textColor="@color/app_text_color"
                         android:textSize="20sp" />
                 </LinearLayout>
 

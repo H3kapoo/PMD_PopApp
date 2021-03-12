@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/app_bg"
+    android:background="@color/app_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -27,7 +27,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#F5F9EF"
+                app:cardBackgroundColor="@color/app_white_color"
                 app:cardCornerRadius="30dp"
                 app:cardElevation="0dp">
 
@@ -38,13 +38,13 @@
 
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/change_home_chart_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/tomorrow_regular"
                         android:text="Change home chart"
                         android:textAlignment="center"
-                        android:textColor="#303030"
+                        android:textColor="@color/app_text_color"
                         android:textSize="24sp" />
 
                     <LinearLayout
@@ -62,14 +62,14 @@
                             app:cardElevation="0dp">
 
                             <Button
-                                android:id="@+id/button322"
+                                android:id="@+id/column_chart_select_btn"
                                 style="@style/ButtonStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="#82EEB2"
+                                android:background="@color/app_btn_gray"
                                 android:fontFamily="@font/tomorrow_regular"
-                                android:text="Log into Facebook"
-                                android:textColor="#303030"
+                                android:text="Column chart"
+                                android:textColor="@color/app_text_color"
                                 android:textSize="18sp" />
                         </androidx.cardview.widget.CardView>
 
@@ -81,14 +81,14 @@
                             app:cardElevation="0dp">
 
                             <Button
-                                android:id="@+id/button32e2"
+                                android:id="@+id/pie_chart_selection_option"
                                 style="@style/ButtonStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="#82EEB2"
+                                android:background="@color/app_light_green"
                                 android:fontFamily="@font/tomorrow_regular"
-                                android:text="Log into Facebook"
-                                android:textColor="#303030"
+                                android:text="Pie chart"
+                                android:textColor="@color/app_text_color"
                                 android:textSize="18sp" />
                         </androidx.cardview.widget.CardView>
 
@@ -101,14 +101,14 @@
                             app:cardElevation="0dp">
 
                             <Button
-                                android:id="@+id/button3222"
+                                android:id="@+id/tagcloud_selection_option"
                                 style="@style/ButtonStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="#82EEB2"
+                                android:background="@color/app_light_green"
                                 android:fontFamily="@font/tomorrow_regular"
-                                android:text="Log into Twitter"
-                                android:textColor="#303030"
+                                android:text="Tag cloud chart"
+                                android:textColor="@color/app_text_color"
                                 android:textSize="18sp" />
                         </androidx.cardview.widget.CardView>
 
@@ -134,7 +134,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#F5F9EF"
+                app:cardBackgroundColor="@color/app_white_color"
                 app:cardCornerRadius="30dp"
                 app:cardElevation="0dp">
 
@@ -145,13 +145,13 @@
 
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/accounts_option_tv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/tomorrow_regular"
                         android:text="Accounts option"
                         android:textAlignment="center"
-                        android:textColor="#303030"
+                        android:textColor="@color/app_text_color"
                         android:textSize="24sp" />
 
                     <LinearLayout
@@ -169,14 +169,14 @@
                             app:cardElevation="0dp">
 
                             <Button
-                                android:id="@+id/button3"
+                                android:id="@+id/loginto_fb_btn"
                                 style="@style/ButtonStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="#82EEB2"
+                                android:background="@color/app_btn_gray"
                                 android:fontFamily="@font/tomorrow_regular"
                                 android:text="Log into Facebook"
-                                android:textColor="#303030"
+                                android:textColor="@color/app_text_color"
                                 android:textSize="18sp" />
                         </androidx.cardview.widget.CardView>
 
@@ -189,14 +189,14 @@
                             app:cardElevation="0dp">
 
                             <Button
-                                android:id="@+id/button32"
+                                android:id="@+id/loginto_tw_btn"
                                 style="@style/ButtonStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="#82EEB2"
+                                android:background="@color/app_light_green"
                                 android:fontFamily="@font/tomorrow_regular"
                                 android:text="Log into Twitter"
-                                android:textColor="#303030"
+                                android:textColor="@color/app_text_color"
                                 android:textSize="18sp" />
                         </androidx.cardview.widget.CardView>
 
@@ -218,7 +218,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                app:cardBackgroundColor="#303030">
+                app:cardBackgroundColor="@color/app_text_color">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -232,10 +232,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#F5F9EF"
+                        android:background="@color/app_white_color"
                         android:fontFamily="@font/tomorrow_regular"
                         android:text="Charts"
-                        android:textColor="#303030"
+                        android:textColor="@color/app_text_color"
                         android:textSize="20sp" />
                     <Button
                         android:id="@+id/home_btn"
@@ -243,10 +243,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#F5F9EF"
+                        android:background="@color/app_white_color"
                         android:fontFamily="@font/tomorrow_regular"
                         android:text="Home"
-                        android:textColor="#303030"
+                        android:textColor="@color/app_text_color"
                         android:textSize="20sp" />
 
                     <Button
@@ -255,10 +255,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#F5F9EF"
+                        android:background="@color/app_white_color"
                         android:fontFamily="@font/tomorrow_regular"
                         android:text="Settings"
-                        android:textColor="#303030"
+                        android:textColor="@color/app_text_color"
                         android:textSize="20sp" />
                 </LinearLayout>
 
