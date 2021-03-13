@@ -47,7 +47,7 @@ public class FacebookAPIHandler {
             if (!hasToken())
                 LoginManager.getInstance().logInWithReadPermissions(act, perms);
             else {
-                LoginManager.getInstance().logOut();
+                fastLogout();
                 AccessToken.setCurrentAccessToken(null);
                 btn.setText("SIGN IN FACEBOOK");
             }

@@ -60,7 +60,6 @@ public class HomeActivity extends AppCompatActivity {
         if (!LoginHandler.getInstance().isLoggedIntoSocial()) {
             Log.d("home", "onCreate: not logged ");
 
-            homeCurrentSocialTextView.setText("No social connected!\nGo to settings to log in");
         } else {
             Log.d("home", "onCreate: logged ");
 
@@ -78,14 +77,16 @@ public class HomeActivity extends AppCompatActivity {
                 fetchAndPlotTwitterData();
                 break;
             case 0:
+                loadNotPopulatedChart();
                 Log.d("HOME", "LoginHandler.getInstance().getLoginType() currently not logged");
+
                 break;
         }
 
         //Set refresh listener
         refresher.setOnRefreshListener(() -> {
             //call here fetchAndPlotFacebookData()
-
+            loadNotPopulatedChart();
             //TODO: data fetching on refresh
 //            if (FacebookAPIHandler.getInstance().hasToken()) {
 //                Log.d("response", "has token");
@@ -98,7 +99,7 @@ public class HomeActivity extends AppCompatActivity {
 //                    refresher.setRefreshing(false);
 //                });
 //            }
-
+            refresher.setRefreshing(false);
         });
 
         chartsBtn.setOnClickListener(e -> {
@@ -111,42 +112,72 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
             startActivity(intent);
         });
-
-        List<DataEntry> column_data = new ArrayList<>();
-
-        //column
-        column_data.add(new ValueDataEntry("Reactions", 14000));
-        column_data.add(new ValueDataEntry("Comments", 4000));
-
-        Bundle column_extras = new Bundle();
-        column_extras.putString("TITLE", "Column Data Chart");
-
-        ChartModel column_chart = new ChartModel("COLUMN", column_data, column_extras);
-        homeChart.setChart(column_chart.populate());
-
     }
 
     public void fetchAndPlotFacebookData() {
 
-        //TODO: CONTINUE PARSING
         Log.d("HOME", "fb has token OK");
 
         Bundle bundle = new Bundle();
         bundle.putString("fields", "reactions.summary(true),comments.summary(true)");
+        bundle.putString("limit", "20");
 
-        FacebookAPIHandler.getInstance().sendGraphRequest("/me/posts", bundle, res -> {
-            JSONObject mainObject = res.getJSONObject();
+        FacebookAPIHandler.getInstance().sendGraphRequest("/me/posts", bundle, result -> {
+            JSONObject resultObj = result.getJSONObject();
             try {
-                JSONArray arr = mainObject.getJSONArray("data");
-                JSONObject reactionsObj = arr.getJSONObject(0);
-                Log.d("HOME", reactionsObj.toString());
-            } catch (JSONException e) {
 
+                JSONArray dataArray = resultObj.getJSONArray("data");
+                Log.d("HOME", String.valueOf(dataArray.length()));
+
+                List<DataEntry> columnData = new ArrayList<>();
+                int totalPostLikes = 0, totalPostComments = 0;
+
+                for (int i = 0; i < dataArray.length(); i++) {
+
+                    //also apply time filtering
+                    String postLikes = dataArray.getJSONObject(i).getJSONObject("reactions").getJSONObject("summary").getString("total_count");
+                    String postComments = dataArray.getJSONObject(i).getJSONObject("comments").getJSONObject("summary").getString("total_count");
+
+                    totalPostLikes += Integer.parseInt(postLikes);
+                    totalPostComments += Integer.parseInt(postComments);
+
+                    Log.d("HOME", "POST" + i + ": LIKES " + postLikes + " COMMENTS " + postComments);
+                }
+
+                columnData.add(new ValueDataEntry("Reactions", totalPostLikes));
+                columnData.add(new ValueDataEntry("Comments", totalPostComments));
+
+                Bundle columnExtras = new Bundle();
+
+                //replace column dynamically
+                ChartModel homeChartModel = new ChartModel("COLUMN", columnData, columnExtras);
+                homeChart.setChart(homeChartModel.populate());
+
+            } catch (JSONException e) {
+                Log.d("HOME", "JSON EXCEPTION THROWN " + e.toString());
+
+                loadNotPopulatedChart();
             }
         });
     }
 
     public void fetchAndPlotTwitterData() {
+
+    }
+
+    public void loadNotPopulatedChart() {
+        homeStatusTextView.setText("No status available");
+        homeCurrentSocialTextView.setText("No social connected!\nGo to settings to log in");
+        List<DataEntry> columnData = new ArrayList<>();
+        columnData.add(new ValueDataEntry("Reactions", 0));
+        columnData.add(new ValueDataEntry("Comments", 0));
+
+        Bundle columnExtras = new Bundle();
+
+        //replace column dynamically
+        ChartModel homeChartModel = new ChartModel("COLUMN", columnData, columnExtras);
+        homeChart.setChart(homeChartModel.populate());
+
 
     }
 }
