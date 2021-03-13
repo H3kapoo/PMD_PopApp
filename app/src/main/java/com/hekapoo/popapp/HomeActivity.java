@@ -57,55 +57,26 @@ public class HomeActivity extends AppCompatActivity {
         refresher = findViewById(R.id.refresher);
 
         //Check if user is logged into a social
-        if (!LoginHandler.getInstance().isLoggedIntoSocial()) {
+        if (!LoginHandler.getInstance().isLoggedIntoSocial())
             Log.d("home", "onCreate: not logged ");
-
-        } else {
+        else
             Log.d("home", "onCreate: logged ");
 
-        }
-
-
-        //Check which social media the user is currently logged into
-        switch (LoginHandler.getInstance().getLoginType()) {
-            case 1:
-                homeCurrentSocialTextView.setText("Facebook");
-                fetchAndPlotFacebookData();
-                break;
-            case 2:
-                homeCurrentSocialTextView.setText("Twitter");
-                fetchAndPlotTwitterData();
-                break;
-            case 0:
-                loadNotPopulatedChart();
-                Log.d("HOME", "LoginHandler.getInstance().getLoginType() currently not logged");
-
-                break;
-        }
+        //Check which social media the user is currently logged into & plot data
+        fetchAndPlot();
 
         //Set refresh listener
         refresher.setOnRefreshListener(() -> {
-            //call here fetchAndPlotFacebookData()
-            loadNotPopulatedChart();
-            //TODO: data fetching on refresh
-//            if (FacebookAPIHandler.getInstance().hasToken()) {
-//                Log.d("response", "has token");
-//
-//                Bundle bundle = new Bundle();
-//                bundle.putString("fields", "reactions.summary(true),comments.summary(true)");
-//
-//                FacebookAPIHandler.getInstance().sendGraphRequest("/me/posts", bundle, res -> {
-//                    Log.d("response", res.toString());
-//                    refresher.setRefreshing(false);
-//                });
-//            }
-            refresher.setRefreshing(false);
+            if (!LoginHandler.getInstance().isLoggedIntoSocial())
+                loadNotPopulatedChart();
+            else
+                fetchAndPlot();
         });
 
+        //Set buttons on click listener
         chartsBtn.setOnClickListener(e -> {
-            FacebookAPIHandler.getInstance().fastLogout();
-//            Intent intent = new Intent(HomeActivity.this, ChartsActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(HomeActivity.this, ChartsActivity.class);
+            startActivity(intent);
         });
 
         settingsBtn.setOnClickListener(e -> {
@@ -114,7 +85,8 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    public void fetchAndPlotFacebookData() {
+    //Function to fetch and plot data from facebook to chart
+    private void fetchAndPlotFacebookData() {
 
         Log.d("HOME", "fb has token OK");
 
@@ -158,14 +130,36 @@ public class HomeActivity extends AppCompatActivity {
 
                 loadNotPopulatedChart();
             }
+            refresher.setRefreshing(false);
         });
     }
 
-    public void fetchAndPlotTwitterData() {
+    //Function to fetch and plot data from twitter to chart
+    private void fetchAndPlotTwitterData() {
 
     }
 
-    public void loadNotPopulatedChart() {
+    //Function to determine the social and call fetch and plot for it
+    private void fetchAndPlot(){
+        switch (LoginHandler.getInstance().getLoginType()) {
+            case 1:
+                homeCurrentSocialTextView.setText("Facebook");
+                fetchAndPlotFacebookData();
+                break;
+            case 2:
+                homeCurrentSocialTextView.setText("Twitter");
+                fetchAndPlotTwitterData();
+                break;
+            case 0:
+                loadNotPopulatedChart();
+                Log.d("HOME", "LoginHandler.getInstance().getLoginType() currently not logged");
+
+                break;
+        }
+    }
+
+    //Function to plot dummy chart if no social is connected
+    private void loadNotPopulatedChart() {
         homeStatusTextView.setText("No status available");
         homeCurrentSocialTextView.setText("No social connected!\nGo to settings to log in");
         List<DataEntry> columnData = new ArrayList<>();
@@ -178,6 +172,7 @@ public class HomeActivity extends AppCompatActivity {
         ChartModel homeChartModel = new ChartModel("COLUMN", columnData, columnExtras);
         homeChart.setChart(homeChartModel.populate());
 
+        refresher.setRefreshing(false);
 
     }
 }

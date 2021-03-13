@@ -21,24 +21,8 @@ public class FacebookAPIHandler {
     private static CallbackManager callbackManager;
     private static FacebookAPIHandler instance = null;
 
-    public interface FacebookAPIHandlerCB {
-        void result(GraphResponse obj);
-
-    }
-
     private FacebookAPIHandler() {
         callbackManager = CallbackManager.Factory.create();
-    }
-
-    public static FacebookAPIHandler getInstance() {
-        if (instance == null)
-            instance = new FacebookAPIHandler();
-        return instance;
-    }
-
-    public void fastLogout() {
-        LoginManager.getInstance().logOut();
-        AccessToken.setCurrentAccessToken(null);
     }
 
     public void login(Button btn, Activity act, List<String> perms, FacebookCallback<LoginResult> re) {
@@ -49,7 +33,7 @@ public class FacebookAPIHandler {
             else {
                 fastLogout();
                 AccessToken.setCurrentAccessToken(null);
-                btn.setText("SIGN IN FACEBOOK");
+                btn.setText("LOG INTO FACEBOOK");
             }
 
         });
@@ -88,7 +72,6 @@ public class FacebookAPIHandler {
                 request.setParameters(bundle);
                 request.executeAsync();
             });
-
     }
 
     //Function to send api calls and get the response
@@ -101,7 +84,17 @@ public class FacebookAPIHandler {
             request.setParameters(bundle);
             request.executeAsync();
         }
+    }
 
+    public static FacebookAPIHandler getInstance() {
+        if (instance == null)
+            instance = new FacebookAPIHandler();
+        return instance;
+    }
+
+    public void fastLogout() {
+        LoginManager.getInstance().logOut();
+        AccessToken.setCurrentAccessToken(null);
     }
 
     public boolean hasToken() {
@@ -112,4 +105,8 @@ public class FacebookAPIHandler {
         return callbackManager;
     }
 
+    public interface FacebookAPIHandlerCB {
+        void result(GraphResponse obj);
+
+    }
 }

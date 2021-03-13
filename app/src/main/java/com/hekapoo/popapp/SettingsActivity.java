@@ -12,6 +12,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.hekapoo.popapp.APIHandler.FacebookAPIHandler;
+import com.hekapoo.popapp.Login.LoginHandler;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
 
+        //Handlers Init
         chartsBtn = findViewById(R.id.charts_btn);
         homeBtn = findViewById(R.id.home_btn);
         logFbBtn = findViewById(R.id.loginto_fb_btn);
@@ -35,8 +37,13 @@ public class SettingsActivity extends AppCompatActivity {
         pieBtn = findViewById(R.id.pie_chart_selection_option);
         tagcloudBtn = findViewById(R.id.tagcloud_selection_option);
 
+        //Set on create buttons text
+        setViewTexts();
+
+        //Set facebook login handler
         List<String> perms = Arrays.asList("email", "public_profile", "pages_manage_posts", "user_posts");
 
+        //TODO: Radio button like (only one can be chosen)
         FacebookAPIHandler.getInstance().login(logFbBtn, this, perms, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -56,6 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        //Set nav buttons handlers
         chartsBtn.setOnClickListener(e -> {
             Intent intent = new Intent(SettingsActivity.this, ChartsActivity.class);
             startActivity(intent);
@@ -66,6 +74,25 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
+    private void setViewTexts(){
+        switch (LoginHandler.getInstance().getLoginType()) {
+            case 1:
+                logFbBtn.setText("LOG OUT FACEBOOK");
+                logTwBtn.setText("LOG INTO TWITTER");
+                break;
+            case 2:
+                logTwBtn.setText("LOG OUT TWITTER");
+                logFbBtn.setText("LOG INTO FACEBOOK");
+                break;
+            case 0:
+                logTwBtn.setText("LOG INTO TWITTER");
+                logFbBtn.setText("LOG INTO FACEBOOK");
+                Log.d("SETTINGS", "LoginHandler.getInstance().getLoginType() currently not logged");
+                break;
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         FacebookAPIHandler.getInstance().getCallbackManager().onActivityResult(requestCode, resultCode, data);
