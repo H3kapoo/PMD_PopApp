@@ -59,10 +59,9 @@ public class ChartModel {
 
     private TagCloud tagCloudChart() {
         TagCloud tagCloud = AnyChart.tagCloud();
-        tagCloud.background().fill("#F5F9EF");
+        tagCloud.background().fill(String.valueOf(R.color.app_white_color));
 
-
-        //tagCloud.title(extras.getString("TITLE"));
+        tagCloud.title(extras.getString("TITLE"));
 
         OrdinalColor ordinalColor = OrdinalColor.instantiate();
         ordinalColor.colors(new String[]{"#26959f", "#f18126", "#3b8ad8", "#60727b", "#e24b26"});
@@ -79,17 +78,15 @@ public class ChartModel {
 
     private Pie pieChart() {
         Pie pie = AnyChart.pie();
-        pie.background().fill("#F5F9EF");
+        pie.background().fill(String.valueOf(R.color.app_white_color));
 
         pie.data(data);
-        pie.title().text("Pie Chart");
-        // pie.title(extras.getString("TITLE"));
+        pie.title(extras.getString("TITLE"));
 
         pie.labels().position("outside");
-        pie.labels().fontColor("#303030");
+        pie.labels().fontColor(String.valueOf(R.color.app_text_color));
 
         pie.legend().title().enabled(false);
-        // pie.legend().title().text(extras.getString("SUB_TITLE")).padding(0d, 0d, 10d, 0d);
 
         pie.legend().position("center-bottom").itemsLayout(LegendLayout.HORIZONTAL).align(Align.CENTER);
 
@@ -99,20 +96,17 @@ public class ChartModel {
     private Cartesian columnChart() {
 
         Cartesian cartesian = AnyChart.column();
-
-        cartesian.background().fill("#F5F9EF");
+        String textColor = String.valueOf(R.color.app_text_color);
+        cartesian.background().fill(String.valueOf(R.color.app_white_color));
         Column column = cartesian.column(data);
-        //   column.fill("#fff");
-        //   column.stroke("#fff");
 
         column.tooltip().titleFormat("{%X}").position(Position.CENTER).anchor(Anchor.CENTER).offsetX(0d).offsetY(5d).format("{%Value}");
         column.tooltip().vAlign("center");
         column.tooltip().hAlign("center");
-        // column.tooltip().background().fill("#ffffff00");
 
         cartesian.animation(true);
-        //   cartesian.title(extras.getString("TITLE"));
-        cartesian.title().fontColor("#303030");
+        cartesian.title(extras.getString("TITLE"));
+        cartesian.title().fontColor(textColor);
 
         cartesian.yScale().minimum(0d);
 
@@ -121,12 +115,8 @@ public class ChartModel {
         cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
         cartesian.interactivity().hoverMode(HoverMode.BY_X);
 
-        // cartesian.xAxis(0).title().fontColor("#fff");
-        cartesian.xAxis(0).labels().fontColor("#303030");
-
-        //cartesian.yAxis(0).title().fontColor("#fff");
-        cartesian.yAxis(0).labels().fontColor("#303030");
-
+        cartesian.xAxis(0).labels().fontColor(textColor);
+        cartesian.yAxis(0).labels().fontColor(textColor);
 
         return cartesian;
     }

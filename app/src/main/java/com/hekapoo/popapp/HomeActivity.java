@@ -136,7 +136,7 @@ public class HomeActivity extends AppCompatActivity {
 
     //Function to fetch and plot data from twitter to chart
     private void fetchAndPlotTwitterData() {
-
+        //TODO
     }
 
     //Function to determine the social and call fetch and plot for it

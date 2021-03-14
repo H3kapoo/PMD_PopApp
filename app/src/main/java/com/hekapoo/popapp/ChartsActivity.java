@@ -14,9 +14,15 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.anychart.chart.common.dataentry.CategoryValueDataEntry;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.hekapoo.popapp.APIHandler.FacebookAPIHandler;
 import com.hekapoo.popapp.Charts.ChartModel;
 import com.hekapoo.popapp.Charts.ChartModelAdapter;
+import com.hekapoo.popapp.Login.LoginHandler;
 import com.hekapoo.popapp.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +31,7 @@ public class ChartsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewCharts;
     private RecyclerView.Adapter<ChartModelAdapter.ViewHolder> chartAdapter;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout refresher;
     private ArrayList<ChartModel> charts;
     private Button homeButton,settingsBtn;
 
@@ -34,11 +40,35 @@ public class ChartsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.charts_layout);
 
-        swipeRefreshLayout = findViewById(R.id.refresher);
+        //Handlers Init
+        recyclerViewCharts = findViewById(R.id.recycler);
+        refresher = findViewById(R.id.refresher);
         homeButton = findViewById(R.id.home_btn);
         settingsBtn = findViewById(R.id.settings_btn);
+        charts = new ArrayList<>();
 
+        //Check if user is logged into a social
+        if (!LoginHandler.getInstance().isLoggedIntoSocial())
+            Log.d("charts", "onCreate: not logged ");
+        else
+            Log.d("charts", "onCreate: logged ");
 
+        //Set the data for the recycler view container accordingly
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        this.recyclerViewCharts.setLayoutManager(layoutManager);
+
+        //Check which social media the user is currently logged into & plot data
+        fetchAndPlot();
+
+        //Set on refresh layout listener
+        refresher.setOnRefreshListener(() -> {
+            if (!LoginHandler.getInstance().isLoggedIntoSocial())
+                loadNotPopulatedChart();
+            else
+                fetchAndPlot();
+        });
+
+        //Home and Settings handlers
         homeButton.setOnClickListener(e->{
             Intent intent = new Intent(ChartsActivity.this, HomeActivity.class);
             startActivity(intent);
@@ -48,71 +78,129 @@ public class ChartsActivity extends AppCompatActivity {
             Intent intent = new Intent(ChartsActivity.this, SettingsActivity.class);
             startActivity(intent);
         });
+    }
+    private void fetchAndPlot(){
+        switch (LoginHandler.getInstance().getLoginType()) {
+            case 1:
+                fetchAndPlotFacebookData();
+                break;
+            case 2:
+                fetchAndPlotTwitterData();
+                break;
+            case 0:
+                loadNotPopulatedChart();
+                Log.d("settings", "LoginHandler.getInstance().getLoginType() currently not logged");
+                break;
+        }
+    }
 
+    //Function to fetch and plot data from facebook to all charts
+    private void fetchAndPlotFacebookData() {
 
-        //TODO: Automate this on refres and on activity load
-        charts = new ArrayList<>();
+        Log.d("settings", "fb has token OK");
 
-        List<DataEntry> column_data = new ArrayList<>();
+        Bundle bundle = new Bundle();
+        bundle.putString("fields", "reactions.summary(true),comments.summary(true)");
+        bundle.putString("limit", "20");
 
-        //column
-        column_data.add(new ValueDataEntry("Reactions", 223));
-        column_data.add(new ValueDataEntry("Comments", 43));
+        FacebookAPIHandler.getInstance().sendGraphRequest("/me/posts", bundle, result -> {
+            JSONObject resultObj = result.getJSONObject();
+            try {
 
-        Bundle column_extras = new Bundle();
-        column_extras.putString("TITLE", "ceva titlu");
-        column_extras.putString("XTITLE", "pe x aicea");
-        column_extras.putString("YTITLE", "pe y aicea");
+                JSONArray dataArray = resultObj.getJSONArray("data");
+                Log.d("settings", String.valueOf(dataArray.length()));
 
-        ChartModel column_chart = new ChartModel("COLUMN", column_data, column_extras);
+                List<DataEntry> columnData = new ArrayList<>();
+                List<DataEntry> pieData = new ArrayList<>();
+                List<DataEntry> tagcloudData = new ArrayList<>();
+                int totalPostLikes = 0, totalPostComments = 0;
 
+                for (int i = 0; i < dataArray.length(); i++) {
 
-        //pie chart
-        List<DataEntry> pie_data = new ArrayList<>();
-        pie_data.add(new ValueDataEntry("Reactions", 130));
-        pie_data.add(new ValueDataEntry("Comments", 66));
+                    //also apply time filtering
+                    String postLikes = dataArray.getJSONObject(i).getJSONObject("reactions").getJSONObject("summary").getString("total_count");
+                    String postComments = dataArray.getJSONObject(i).getJSONObject("comments").getJSONObject("summary").getString("total_count");
 
+                    totalPostLikes += Integer.parseInt(postLikes);
+                    totalPostComments += Integer.parseInt(postComments);
 
-        Bundle pie_extras = new Bundle();
-        pie_extras.putString("TITLE", "ceva titlu");
-        pie_extras.putString("SUB_TITLE", "subtitlu");
+                    Log.d("settings", "POST" + i + ": LIKES " + postLikes + " COMMENTS " + postComments);
+                }
 
-        ChartModel pie_chart = new ChartModel("PIE", pie_data, pie_extras);
+                columnData.add(new ValueDataEntry("Reactions", totalPostLikes));
+                columnData.add(new ValueDataEntry("Comments", totalPostComments));
+                pieData.add(new ValueDataEntry("Reactions", totalPostLikes));
+                pieData.add(new ValueDataEntry("Comments", totalPostComments));
+                tagcloudData.add(new CategoryValueDataEntry("Reactions","Reactions",totalPostLikes));
+                tagcloudData.add(new CategoryValueDataEntry("Comments","Comments",totalPostComments));
 
+                Bundle columnExtras = new Bundle();
+                columnExtras.putString("TITLE","Column chart");
 
-        //tag_cloud
-        List<DataEntry> tag_data = new ArrayList<>();
-        tag_data.add(new CategoryValueDataEntry("Wow", "31 mar", 1));
-        tag_data.add(new CategoryValueDataEntry("HaHa", "12 mar", 3));
-        tag_data.add(new CategoryValueDataEntry("GGWP", "3 aug", 4));
-        tag_data.add(new CategoryValueDataEntry("Nic3e", "5 apr", 5));
-        tag_data.add(new CategoryValueDataEntry("Nic3e", "7 apr", 5));
-        tag_data.add(new CategoryValueDataEntry("Nic43e", "8 apr", 5));
-        tag_data.add(new CategoryValueDataEntry("Ni43ce", "9 apr", 5));
+                Bundle pieExtras = new Bundle();
+                columnExtras.putString("TITLE","Pie chart");
 
+                Bundle tagcloudExtras = new Bundle();
+                columnExtras.putString("TITLE","Tag cloud chart");
 
-        Bundle tag_extras = new Bundle();
-        tag_extras.putString("TITLE", "ceva titlu");
+                ChartModel columnChart = new ChartModel("COLUMN", columnData, columnExtras);
+                ChartModel pieChart = new ChartModel("PIE", pieData, pieExtras);
+                ChartModel tagcloudChart = new ChartModel("TAG_CLOUD",tagcloudData , tagcloudExtras);
 
-        ChartModel tag_chart = new ChartModel("TAG_CLOUD", tag_data, tag_extras);
+                charts.add(columnChart);
+                charts.add(pieChart);
+                charts.add(tagcloudChart);
 
-        charts.add(column_chart);
-        charts.add(pie_chart);
-        charts.add(tag_chart);
+                //Update recyclerview
+                chartAdapter = new ChartModelAdapter(charts);
+                this.recyclerViewCharts.setAdapter(chartAdapter);
+                refresher.setRefreshing(false);
 
-
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-                //TODO: Get data for all charts on refresh from APIs
-            chartAdapter = new ChartModelAdapter(charts);
-            this.recyclerViewCharts.setAdapter(chartAdapter);
-            swipeRefreshLayout.setRefreshing(false);
+            } catch (JSONException e) {
+                Log.d("settings", "JSON EXCEPTION THROWN " + e.toString());
+                loadNotPopulatedChart();
+            }
         });
+    }
 
-        recyclerViewCharts = findViewById(R.id.recycler);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        this.recyclerViewCharts.setLayoutManager(layoutManager);
+    //Function to fetch and plot data from twitter to chart
+    private void fetchAndPlotTwitterData() {
+        //TODO
+    }
+
+    private void loadNotPopulatedChart() {
+        List<DataEntry> columnData = new ArrayList<>();
+        List<DataEntry> pieData = new ArrayList<>();
+        List<DataEntry> tagcloudData = new ArrayList<>();
+
+        columnData.add(new ValueDataEntry("Reactions", 0));
+        columnData.add(new ValueDataEntry("Comments", 0));
+        pieData.add(new ValueDataEntry("Reactions", 0));
+        pieData.add(new ValueDataEntry("Comments", 0));
+        tagcloudData.add(new CategoryValueDataEntry("Reactions","Reactions",0));
+        tagcloudData.add(new CategoryValueDataEntry("Comments","Comments",0));
+
+        Bundle columnExtras = new Bundle();
+        columnExtras.putString("TITLE","NO SOCIAL CONNECTED");
+
+        Bundle pieExtras = new Bundle();
+        pieExtras.putString("TITLE","NO SOCIAL CONNECTED");
+
+        Bundle tagcloudExtras = new Bundle();
+        tagcloudExtras.putString("TITLE","NO SOCIAL CONNECTED");
+
+        //replace column dynamically
+        ChartModel columnChart = new ChartModel("COLUMN", columnData, columnExtras);
+        ChartModel pieChart = new ChartModel("PIE", pieData, pieExtras);
+        ChartModel tagcloudChart = new ChartModel("TAG_CLOUD", tagcloudData, tagcloudExtras);
+
+        charts.add(columnChart);
+        charts.add(pieChart);
+        charts.add(tagcloudChart);
+
+        //Update recyclerview
         chartAdapter = new ChartModelAdapter(charts);
         this.recyclerViewCharts.setAdapter(chartAdapter);
-
+        refresher.setRefreshing(false);
     }
 }
