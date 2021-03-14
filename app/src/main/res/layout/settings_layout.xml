@@ -62,7 +62,7 @@
                             app:cardElevation="0dp">
 
                             <Button
-                                android:id="@+id/column_chart_select_btn"
+                                android:id="@+id/column_chart_selection_btn"
                                 style="@style/ButtonStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"

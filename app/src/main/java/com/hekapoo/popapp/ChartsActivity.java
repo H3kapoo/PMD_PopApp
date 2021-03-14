@@ -45,7 +45,6 @@ public class ChartsActivity extends AppCompatActivity {
         refresher = findViewById(R.id.refresher);
         homeButton = findViewById(R.id.home_btn);
         settingsBtn = findViewById(R.id.settings_btn);
-        charts = new ArrayList<>();
 
         //Check if user is logged into a social
         if (!LoginHandler.getInstance().isLoggedIntoSocial())
@@ -89,7 +88,7 @@ public class ChartsActivity extends AppCompatActivity {
                 break;
             case 0:
                 loadNotPopulatedChart();
-                Log.d("settings", "LoginHandler.getInstance().getLoginType() currently not logged");
+                Log.d("charts", "LoginHandler.getInstance().getLoginType() currently not logged");
                 break;
         }
     }
@@ -97,7 +96,7 @@ public class ChartsActivity extends AppCompatActivity {
     //Function to fetch and plot data from facebook to all charts
     private void fetchAndPlotFacebookData() {
 
-        Log.d("settings", "fb has token OK");
+        Log.d("charts", "fb has token OK");
 
         Bundle bundle = new Bundle();
         bundle.putString("fields", "reactions.summary(true),comments.summary(true)");
@@ -108,7 +107,7 @@ public class ChartsActivity extends AppCompatActivity {
             try {
 
                 JSONArray dataArray = resultObj.getJSONArray("data");
-                Log.d("settings", String.valueOf(dataArray.length()));
+                Log.d("charts", String.valueOf(dataArray.length()));
 
                 List<DataEntry> columnData = new ArrayList<>();
                 List<DataEntry> pieData = new ArrayList<>();
@@ -124,13 +123,15 @@ public class ChartsActivity extends AppCompatActivity {
                     totalPostLikes += Integer.parseInt(postLikes);
                     totalPostComments += Integer.parseInt(postComments);
 
-                    Log.d("settings", "POST" + i + ": LIKES " + postLikes + " COMMENTS " + postComments);
+                    Log.d("charts", "POST" + i + ": LIKES " + postLikes + " COMMENTS " + postComments);
                 }
 
                 columnData.add(new ValueDataEntry("Reactions", totalPostLikes));
                 columnData.add(new ValueDataEntry("Comments", totalPostComments));
                 pieData.add(new ValueDataEntry("Reactions", totalPostLikes));
                 pieData.add(new ValueDataEntry("Comments", totalPostComments));
+
+                //might take a "date" component into account
                 tagcloudData.add(new CategoryValueDataEntry("Reactions","Reactions",totalPostLikes));
                 tagcloudData.add(new CategoryValueDataEntry("Comments","Comments",totalPostComments));
 
@@ -147,6 +148,7 @@ public class ChartsActivity extends AppCompatActivity {
                 ChartModel pieChart = new ChartModel("PIE", pieData, pieExtras);
                 ChartModel tagcloudChart = new ChartModel("TAG_CLOUD",tagcloudData , tagcloudExtras);
 
+                charts = new ArrayList<>();
                 charts.add(columnChart);
                 charts.add(pieChart);
                 charts.add(tagcloudChart);
@@ -157,7 +159,7 @@ public class ChartsActivity extends AppCompatActivity {
                 refresher.setRefreshing(false);
 
             } catch (JSONException e) {
-                Log.d("settings", "JSON EXCEPTION THROWN " + e.toString());
+                Log.d("charts", "JSON EXCEPTION THROWN " + e.toString());
                 loadNotPopulatedChart();
             }
         });
@@ -169,6 +171,7 @@ public class ChartsActivity extends AppCompatActivity {
     }
 
     private void loadNotPopulatedChart() {
+        charts = new ArrayList<>();
         List<DataEntry> columnData = new ArrayList<>();
         List<DataEntry> pieData = new ArrayList<>();
         List<DataEntry> tagcloudData = new ArrayList<>();

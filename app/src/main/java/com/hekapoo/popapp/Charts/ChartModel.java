@@ -59,9 +59,11 @@ public class ChartModel {
 
     private TagCloud tagCloudChart() {
         TagCloud tagCloud = AnyChart.tagCloud();
-        tagCloud.background().fill(String.valueOf(R.color.app_white_color));
+        tagCloud.background().fill("#F5F9EF");
 
         tagCloud.title(extras.getString("TITLE"));
+        tagCloud.title().fontColor("#303030");
+
 
         OrdinalColor ordinalColor = OrdinalColor.instantiate();
         ordinalColor.colors(new String[]{"#26959f", "#f18126", "#3b8ad8", "#60727b", "#e24b26"});
@@ -78,13 +80,15 @@ public class ChartModel {
 
     private Pie pieChart() {
         Pie pie = AnyChart.pie();
-        pie.background().fill(String.valueOf(R.color.app_white_color));
+        pie.background().fill("#F5F9EF");
 
         pie.data(data);
         pie.title(extras.getString("TITLE"));
+        pie.title().fontColor("#303030");
+
 
         pie.labels().position("outside");
-        pie.labels().fontColor(String.valueOf(R.color.app_text_color));
+        pie.labels().fontColor("#303030");
 
         pie.legend().title().enabled(false);
 
@@ -96,8 +100,8 @@ public class ChartModel {
     private Cartesian columnChart() {
 
         Cartesian cartesian = AnyChart.column();
-        String textColor = String.valueOf(R.color.app_text_color);
-        cartesian.background().fill(String.valueOf(R.color.app_white_color));
+
+        cartesian.background().fill("#F5F9EF");
         Column column = cartesian.column(data);
 
         column.tooltip().titleFormat("{%X}").position(Position.CENTER).anchor(Anchor.CENTER).offsetX(0d).offsetY(5d).format("{%Value}");
@@ -106,7 +110,7 @@ public class ChartModel {
 
         cartesian.animation(true);
         cartesian.title(extras.getString("TITLE"));
-        cartesian.title().fontColor(textColor);
+        cartesian.title().fontColor("#303030");
 
         cartesian.yScale().minimum(0d);
 
@@ -115,8 +119,9 @@ public class ChartModel {
         cartesian.tooltip().positionMode(TooltipPositionMode.POINT);
         cartesian.interactivity().hoverMode(HoverMode.BY_X);
 
-        cartesian.xAxis(0).labels().fontColor(textColor);
-        cartesian.yAxis(0).labels().fontColor(textColor);
+        cartesian.xAxis(0).labels().fontColor("#303030");
+        cartesian.yAxis(0).labels().fontColor("#303030");
+
 
         return cartesian;
     }
@@ -133,5 +138,9 @@ public class ChartModel {
             default:
                 return null;
         }
+    }
+
+    public void handleDownload(View v){
+
     }
 }

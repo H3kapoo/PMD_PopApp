@@ -2,6 +2,7 @@ package com.hekapoo.popapp;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import androidx.cardview.widget.CardView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.anychart.AnyChartView;
+import com.anychart.chart.common.dataentry.CategoryValueDataEntry;
 import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.facebook.AccessToken;
@@ -56,6 +58,20 @@ public class HomeActivity extends AppCompatActivity {
         homeCurrentSocialTextView = findViewById(R.id.currentSocialTextView);
         refresher = findViewById(R.id.refresher);
 
+        //Set default home chart (only once if needed)
+        SharedPreferences loadedSettings = getSharedPreferences("ChartInfo", 0);
+        String chartType = loadedSettings.getString("CHART_TYPE", "kappa");
+
+        if (chartType.equals("kappa")) {
+            SharedPreferences settings = getSharedPreferences("ChartInfo", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("CHART_TYPE", "COLUMN");
+            editor.commit();
+            Log.d("home", "was kappa indeed");
+        } else
+            Log.d("home", "no kappa this time");
+
+
         //Check if user is logged into a social
         if (!LoginHandler.getInstance().isLoggedIntoSocial())
             Log.d("home", "onCreate: not logged ");
@@ -92,7 +108,7 @@ public class HomeActivity extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
         bundle.putString("fields", "reactions.summary(true),comments.summary(true)");
-        bundle.putString("limit", "20");
+        bundle.putString("limit", "20");  //<- current limit facor
 
         FacebookAPIHandler.getInstance().sendGraphRequest("/me/posts", bundle, result -> {
             JSONObject resultObj = result.getJSONObject();
@@ -101,7 +117,7 @@ public class HomeActivity extends AppCompatActivity {
                 JSONArray dataArray = resultObj.getJSONArray("data");
                 Log.d("HOME", String.valueOf(dataArray.length()));
 
-                List<DataEntry> columnData = new ArrayList<>();
+                List<DataEntry> chartData = new ArrayList<>();
                 int totalPostLikes = 0, totalPostComments = 0;
 
                 for (int i = 0; i < dataArray.length(); i++) {
@@ -116,18 +132,28 @@ public class HomeActivity extends AppCompatActivity {
                     Log.d("HOME", "POST" + i + ": LIKES " + postLikes + " COMMENTS " + postComments);
                 }
 
-                columnData.add(new ValueDataEntry("Reactions", totalPostLikes));
-                columnData.add(new ValueDataEntry("Comments", totalPostComments));
+                //Get chart type from preferences
+                SharedPreferences settings = getSharedPreferences("ChartInfo", 0);
+                String chartType = settings.getString("CHART_TYPE", "COLUMN");
 
-                Bundle columnExtras = new Bundle();
+                if (chartType.equals("TAG_CLOUD")) {
+                    //TODO:Make tag could stuff : has different type of data for .add and it may also receive a "date" component in the future
+                    //dummies for now
+                    chartData.add(new CategoryValueDataEntry("Reactions", "Reactions", totalPostLikes));
+                    chartData.add(new CategoryValueDataEntry("Comments", "Comments", totalPostComments));
 
-                //replace column dynamically
-                ChartModel homeChartModel = new ChartModel("COLUMN", columnData, columnExtras);
+                } else {
+                    chartData.add(new ValueDataEntry("Reactions", totalPostLikes));
+                    chartData.add(new ValueDataEntry("Comments", totalPostComments));
+                }
+
+                Bundle chartExtras = new Bundle();
+
+                ChartModel homeChartModel = new ChartModel(chartType, chartData, chartExtras);
                 homeChart.setChart(homeChartModel.populate());
 
             } catch (JSONException e) {
                 Log.d("HOME", "JSON EXCEPTION THROWN " + e.toString());
-
                 loadNotPopulatedChart();
             }
             refresher.setRefreshing(false);
@@ -140,7 +166,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     //Function to determine the social and call fetch and plot for it
-    private void fetchAndPlot(){
+    private void fetchAndPlot() {
         switch (LoginHandler.getInstance().getLoginType()) {
             case 1:
                 homeCurrentSocialTextView.setText("Facebook");
@@ -153,7 +179,6 @@ public class HomeActivity extends AppCompatActivity {
             case 0:
                 loadNotPopulatedChart();
                 Log.d("HOME", "LoginHandler.getInstance().getLoginType() currently not logged");
-
                 break;
         }
     }
@@ -168,11 +193,9 @@ public class HomeActivity extends AppCompatActivity {
 
         Bundle columnExtras = new Bundle();
 
-        //replace column dynamically
         ChartModel homeChartModel = new ChartModel("COLUMN", columnData, columnExtras);
         homeChart.setChart(homeChartModel.populate());
 
         refresher.setRefreshing(false);
-
     }
 }

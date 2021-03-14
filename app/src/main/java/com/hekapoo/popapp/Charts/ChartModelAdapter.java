@@ -44,8 +44,7 @@ public class ChartModelAdapter extends RecyclerView.Adapter<ChartModelAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChartModel chart = charts.get(position);
         holder.chartView.setChart(chart.populate());
-//        holder.view.findViewById(R.id.startDate_btn).setOnClickListener(chart::handleStartDate);
-//        holder.view.findViewById(R.id.endDate_btn).setOnClickListener(chart::handleEndDate);
+        holder.view.findViewById(R.id.download_btn).setOnClickListener(chart::handleDownload);
 
     }
 

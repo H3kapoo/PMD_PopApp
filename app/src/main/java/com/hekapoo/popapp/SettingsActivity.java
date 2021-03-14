@@ -1,6 +1,8 @@
 package com.hekapoo.popapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -8,6 +10,7 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.anychart.charts.Pie;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
@@ -19,9 +22,9 @@ import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    Button homeBtn,chartsBtn;
-    Button logFbBtn,logTwBtn;
-    Button columnBtn,pieBtn,tagcloudBtn;
+    Button homeBtn, chartsBtn;
+    Button logFbBtn, logTwBtn;
+    Button columnBtn, pieBtn, tagcloudBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,12 +36,12 @@ public class SettingsActivity extends AppCompatActivity {
         homeBtn = findViewById(R.id.home_btn);
         logFbBtn = findViewById(R.id.loginto_fb_btn);
         logTwBtn = findViewById(R.id.loginto_tw_btn);
-        columnBtn = findViewById(R.id.column_chart_select_btn);
+        columnBtn = findViewById(R.id.column_chart_selection_btn);
         pieBtn = findViewById(R.id.pie_chart_selection_option);
         tagcloudBtn = findViewById(R.id.tagcloud_selection_option);
 
-        //Set on create buttons text
-        setViewTexts();
+        //Set on create buttons text & color
+        setButtonsTextAndColor();
 
         //Set facebook login handler
         List<String> perms = Arrays.asList("email", "public_profile", "pages_manage_posts", "user_posts");
@@ -63,6 +66,62 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        //Set charts button handler
+        columnBtn.setOnClickListener(e -> {
+            //Get chart type from preferences
+            SharedPreferences loadedSettings = getSharedPreferences("ChartInfo", 0);
+            String chartType = loadedSettings.getString("CHART_TYPE", "kappa");
+
+            if (!chartType.equals("COLUMN")) {
+                pieBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
+                tagcloudBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
+                columnBtn.setBackgroundColor(getResources().getColor(R.color.app_btn_gray));
+
+                //Save preference
+                SharedPreferences settings = getSharedPreferences("ChartInfo", 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("CHART_TYPE", "COLUMN");
+                editor.commit();
+
+            }
+        });
+
+        pieBtn.setOnClickListener(e -> {
+            //Get chart type from preferences
+            SharedPreferences loadedSettings = getSharedPreferences("ChartInfo", 0);
+            String chartType = loadedSettings.getString("CHART_TYPE", "kappa");
+
+            if (!chartType.equals("PIE")) {
+                columnBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
+                tagcloudBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
+                pieBtn.setBackgroundColor(getResources().getColor(R.color.app_btn_gray));
+
+                //Save preference
+                SharedPreferences settings = getSharedPreferences("ChartInfo", 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("CHART_TYPE", "PIE");
+                editor.commit();
+            }
+        });
+
+        tagcloudBtn.setOnClickListener(e -> {
+            //Get chart type from preferences
+            SharedPreferences loadedSettings = getSharedPreferences("ChartInfo", 0);
+            String chartType = loadedSettings.getString("CHART_TYPE", "kappa");
+
+            if (!chartType.equals("TAG_CLOUD")) {
+                columnBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
+                pieBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
+                tagcloudBtn.setBackgroundColor(getResources().getColor(R.color.app_btn_gray));
+
+                //Save preference
+                SharedPreferences settings = getSharedPreferences("ChartInfo", 0);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("CHART_TYPE", "TAG_CLOUD");
+                editor.commit();
+            }
+        });
+
         //Set nav buttons handlers
         chartsBtn.setOnClickListener(e -> {
             Intent intent = new Intent(SettingsActivity.this, ChartsActivity.class);
@@ -75,7 +134,32 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    private void setViewTexts(){
+    @SuppressLint("ResourceAsColor")
+    private void setButtonsTextAndColor() {
+
+        //Get chart type from preferences
+        SharedPreferences settings = getSharedPreferences("ChartInfo", 0);
+        String chartType = settings.getString("CHART_TYPE", "kappa");
+
+        switch (chartType){
+            case "COLUMN":
+                columnBtn.setBackgroundColor(getResources().getColor(R.color.app_btn_gray));
+                pieBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
+                tagcloudBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
+                break;
+            case "PIE":
+                pieBtn.setBackgroundColor(getResources().getColor(R.color.app_btn_gray));
+                tagcloudBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
+                columnBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
+                break;
+            case "TAG_CLOUD":
+                tagcloudBtn.setBackgroundColor(getResources().getColor(R.color.app_btn_gray));
+                pieBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
+                columnBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
+                break;
+        }
+
+        //Login stuff
         switch (LoginHandler.getInstance().getLoginType()) {
             case 1:
                 logFbBtn.setText("LOG OUT FACEBOOK");

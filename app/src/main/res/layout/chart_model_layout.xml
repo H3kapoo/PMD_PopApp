@@ -41,7 +41,7 @@
                 app:cardElevation="0dp">
 
                 <Button
-                    android:id="@+id/endDate_btn"
+                    android:id="@+id/download_btn"
                     style="@style/ButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
