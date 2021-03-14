@@ -46,13 +46,14 @@ public class SettingsActivity extends AppCompatActivity {
         //Set facebook login handler
         List<String> perms = Arrays.asList("email", "public_profile", "pages_manage_posts", "user_posts");
 
-        //TODO: Radio button like (only one can be chosen)
+        //TODO: Radio button like (only one can be chosen) with a switch maybe
         FacebookAPIHandler.getInstance().login(logFbBtn, this, perms, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d("settings", "Logged into facebook OK");
             }
 
+            //Not needed
             @Override
             public void onCancel() {
                 Log.d("settings", "Logged into facebook ABORT");
@@ -134,7 +135,6 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressLint("ResourceAsColor")
     private void setButtonsTextAndColor() {
 
         //Get chart type from preferences
@@ -164,14 +164,20 @@ public class SettingsActivity extends AppCompatActivity {
             case 1:
                 logFbBtn.setText("LOG OUT FACEBOOK");
                 logTwBtn.setText("LOG INTO TWITTER");
+                logFbBtn.setBackgroundColor(getResources().getColor(R.color.app_btn_gray));
+                logTwBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
                 break;
             case 2:
                 logTwBtn.setText("LOG OUT TWITTER");
                 logFbBtn.setText("LOG INTO FACEBOOK");
+                logTwBtn.setBackgroundColor(getResources().getColor(R.color.app_btn_gray));
+                logFbBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
                 break;
             case 0:
                 logTwBtn.setText("LOG INTO TWITTER");
                 logFbBtn.setText("LOG INTO FACEBOOK");
+                logFbBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
+                logTwBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
                 Log.d("SETTINGS", "LoginHandler.getInstance().getLoginType() currently not logged");
                 break;
         }

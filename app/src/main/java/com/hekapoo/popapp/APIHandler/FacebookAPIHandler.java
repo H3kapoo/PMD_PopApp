@@ -1,5 +1,6 @@
 package com.hekapoo.popapp.APIHandler;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.hekapoo.popapp.R;
 
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class FacebookAPIHandler {
             else {
                 fastLogout();
                 AccessToken.setCurrentAccessToken(null);
+                btn.setBackgroundResource(R.color.app_light_green); //check why this
                 btn.setText("LOG INTO FACEBOOK");
             }
 
@@ -41,7 +44,7 @@ public class FacebookAPIHandler {
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
+                btn.setBackgroundResource(R.color.app_btn_gray);
                 btn.setText("LOG OUT FACEBOOK");
                 re.onSuccess(loginResult);
             }
