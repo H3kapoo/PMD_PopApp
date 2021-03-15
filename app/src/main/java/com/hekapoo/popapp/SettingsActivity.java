@@ -41,16 +41,18 @@ public class SettingsActivity extends AppCompatActivity {
         tagcloudBtn = findViewById(R.id.tagcloud_selection_option);
 
         //Set on create buttons text & color
-        setButtonsTextAndColor();
+        setSelectedChart();
+        setLoginButtonsColor();
 
         //Set facebook login handler
         List<String> perms = Arrays.asList("email", "public_profile", "pages_manage_posts", "user_posts");
 
-        //TODO: Radio button like (only one can be chosen) with a switch maybe
+        //Facebook login callback
         FacebookAPIHandler.getInstance().login(logFbBtn, this, perms, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d("settings", "Logged into facebook OK");
+                setLoginButtonsColor();
             }
 
             //Not needed
@@ -66,6 +68,9 @@ public class SettingsActivity extends AppCompatActivity {
 
             }
         });
+
+        //Twitter login callback
+        //TODO: WAIT FOR TWITTER APPROVAL :|
 
         //Set charts button handler
         columnBtn.setOnClickListener(e -> {
@@ -134,9 +139,7 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
-    private void setButtonsTextAndColor() {
-
+    private void setSelectedChart(){
         //Get chart type from preferences
         SharedPreferences settings = getSharedPreferences("ChartInfo", 0);
         String chartType = settings.getString("CHART_TYPE", "kappa");
@@ -158,6 +161,9 @@ public class SettingsActivity extends AppCompatActivity {
                 columnBtn.setBackgroundColor(getResources().getColor(R.color.app_light_green));
                 break;
         }
+    }
+
+    private void setLoginButtonsColor() {
 
         //Login stuff
         switch (LoginHandler.getInstance().getLoginType()) {

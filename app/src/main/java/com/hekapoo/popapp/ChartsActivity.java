@@ -17,6 +17,7 @@ import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.hekapoo.popapp.APIHandler.FacebookAPIHandler;
 import com.hekapoo.popapp.Charts.ChartModel;
 import com.hekapoo.popapp.Charts.ChartModelAdapter;
+import com.hekapoo.popapp.Charts.TagCloudValuesGenerator;
 import com.hekapoo.popapp.Login.LoginHandler;
 import com.hekapoo.popapp.R;
 
@@ -33,7 +34,7 @@ public class ChartsActivity extends AppCompatActivity {
     private RecyclerView.Adapter<ChartModelAdapter.ViewHolder> chartAdapter;
     private SwipeRefreshLayout refresher;
     private ArrayList<ChartModel> charts;
-    private Button homeButton,settingsBtn;
+    private Button homeButton, settingsBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,17 +69,18 @@ public class ChartsActivity extends AppCompatActivity {
         });
 
         //Home and Settings handlers
-        homeButton.setOnClickListener(e->{
+        homeButton.setOnClickListener(e -> {
             Intent intent = new Intent(ChartsActivity.this, HomeActivity.class);
             startActivity(intent);
         });
 
-        settingsBtn.setOnClickListener(e->{
+        settingsBtn.setOnClickListener(e -> {
             Intent intent = new Intent(ChartsActivity.this, SettingsActivity.class);
             startActivity(intent);
         });
     }
-    private void fetchAndPlot(){
+
+    private void fetchAndPlot() {
         switch (LoginHandler.getInstance().getLoginType()) {
             case 1:
                 fetchAndPlotFacebookData();
@@ -131,22 +133,21 @@ public class ChartsActivity extends AppCompatActivity {
                 pieData.add(new ValueDataEntry("Reactions", totalPostLikes));
                 pieData.add(new ValueDataEntry("Comments", totalPostComments));
 
-                //might take a "date" component into account
-                tagcloudData.add(new CategoryValueDataEntry("Reactions","Reactions",totalPostLikes));
-                tagcloudData.add(new CategoryValueDataEntry("Comments","Comments",totalPostComments));
+                //tag data
+                tagcloudData = TagCloudValuesGenerator.getValuesArray(totalPostLikes, totalPostComments);
 
                 Bundle columnExtras = new Bundle();
-                columnExtras.putString("TITLE","Column chart");
+                columnExtras.putString("TITLE", "Column chart");
 
                 Bundle pieExtras = new Bundle();
-                columnExtras.putString("TITLE","Pie chart");
+                columnExtras.putString("TITLE", "Pie chart");
 
                 Bundle tagcloudExtras = new Bundle();
-                columnExtras.putString("TITLE","Tag cloud chart");
+                columnExtras.putString("TITLE", "Tag cloud chart");
 
                 ChartModel columnChart = new ChartModel("COLUMN", columnData, columnExtras);
                 ChartModel pieChart = new ChartModel("PIE", pieData, pieExtras);
-                ChartModel tagcloudChart = new ChartModel("TAG_CLOUD",tagcloudData , tagcloudExtras);
+                ChartModel tagcloudChart = new ChartModel("TAG_CLOUD", tagcloudData, tagcloudExtras);
 
                 charts = new ArrayList<>();
                 charts.add(columnChart);
@@ -180,17 +181,17 @@ public class ChartsActivity extends AppCompatActivity {
         columnData.add(new ValueDataEntry("Comments", 0));
         pieData.add(new ValueDataEntry("Reactions", 0));
         pieData.add(new ValueDataEntry("Comments", 0));
-        tagcloudData.add(new CategoryValueDataEntry("Reactions","Reactions",0));
-        tagcloudData.add(new CategoryValueDataEntry("Comments","Comments",0));
+        tagcloudData.add(new CategoryValueDataEntry("Reactions", "Reactions", 0));
+        tagcloudData.add(new CategoryValueDataEntry("Comments", "Comments", 0));
 
         Bundle columnExtras = new Bundle();
-        columnExtras.putString("TITLE","NO SOCIAL CONNECTED");
+        columnExtras.putString("TITLE", "NO SOCIAL CONNECTED");
 
         Bundle pieExtras = new Bundle();
-        pieExtras.putString("TITLE","NO SOCIAL CONNECTED");
+        pieExtras.putString("TITLE", "NO SOCIAL CONNECTED");
 
         Bundle tagcloudExtras = new Bundle();
-        tagcloudExtras.putString("TITLE","NO SOCIAL CONNECTED");
+        tagcloudExtras.putString("TITLE", "NO SOCIAL CONNECTED");
 
         //replace column dynamically
         ChartModel columnChart = new ChartModel("COLUMN", columnData, columnExtras);

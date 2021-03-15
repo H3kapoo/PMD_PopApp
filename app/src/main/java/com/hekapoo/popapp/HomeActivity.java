@@ -24,6 +24,7 @@ import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.facebook.AccessToken;
 import com.hekapoo.popapp.APIHandler.FacebookAPIHandler;
 import com.hekapoo.popapp.Charts.ChartModel;
+import com.hekapoo.popapp.Charts.TagCloudValuesGenerator;
 import com.hekapoo.popapp.Login.LoginHandler;
 
 import org.json.JSONArray;
@@ -136,13 +137,9 @@ public class HomeActivity extends AppCompatActivity {
                 SharedPreferences settings = getSharedPreferences("ChartInfo", 0);
                 String chartType = settings.getString("CHART_TYPE", "COLUMN");
 
-                if (chartType.equals("TAG_CLOUD")) {
-                    //TODO:Make tag could stuff : has different type of data for .add and it may also receive a "date" component in the future
-                    //dummies for now
-                    chartData.add(new CategoryValueDataEntry("Reactions", "Reactions", totalPostLikes));
-                    chartData.add(new CategoryValueDataEntry("Comments", "Comments", totalPostComments));
-
-                } else {
+                if (chartType.equals("TAG_CLOUD"))
+                    chartData = TagCloudValuesGenerator.getValuesArray(totalPostLikes, totalPostComments);
+                else {
                     chartData.add(new ValueDataEntry("Reactions", totalPostLikes));
                     chartData.add(new ValueDataEntry("Comments", totalPostComments));
                 }
@@ -151,6 +148,8 @@ public class HomeActivity extends AppCompatActivity {
 
                 ChartModel homeChartModel = new ChartModel(chartType, chartData, chartExtras);
                 homeChart.setChart(homeChartModel.populate());
+
+                computeAndSetStatus(totalPostLikes,totalPostComments);
 
             } catch (JSONException e) {
                 Log.d("HOME", "JSON EXCEPTION THROWN " + e.toString());
@@ -162,7 +161,7 @@ public class HomeActivity extends AppCompatActivity {
 
     //Function to fetch and plot data from twitter to chart
     private void fetchAndPlotTwitterData() {
-        //TODO
+        //TODO Wait for twitter approval :|
     }
 
     //Function to determine the social and call fetch and plot for it
@@ -197,5 +196,10 @@ public class HomeActivity extends AppCompatActivity {
         homeChart.setChart(homeChartModel.populate());
 
         refresher.setRefreshing(false);
+    }
+
+    //Function to pick status text and picture
+    private void computeAndSetStatus(int totalLikes,int totalComments){
+
     }
 }
