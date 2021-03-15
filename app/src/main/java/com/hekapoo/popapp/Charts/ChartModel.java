@@ -1,7 +1,11 @@
 package com.hekapoo.popapp.Charts;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +44,11 @@ import com.hekapoo.popapp.ChartsActivity;
 import com.hekapoo.popapp.HomeActivity;
 import com.hekapoo.popapp.R;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -50,6 +59,7 @@ public class ChartModel {
     private String type;
     private List<DataEntry> data;
     private Bundle extras;
+    private Cartesian cartesian;
 
     public ChartModel(String type, List<DataEntry> data, Bundle extras) {
         this.type = type;
@@ -99,7 +109,7 @@ public class ChartModel {
 
     private Cartesian columnChart() {
 
-        Cartesian cartesian = AnyChart.column();
+        cartesian = AnyChart.column();
 
         cartesian.background().fill("#F5F9EF");
         Column column = cartesian.column(data);
@@ -122,7 +132,6 @@ public class ChartModel {
         cartesian.xAxis(0).labels().fontColor("#303030");
         cartesian.yAxis(0).labels().fontColor("#303030");
 
-
         return cartesian;
     }
 
@@ -140,7 +149,54 @@ public class ChartModel {
         }
     }
 
-    public void handleDownload(View v){
+    public void handleDownload(View v, AnyChartView c) {
+
+        c.buildDrawingCache();
+        Bitmap bitmap = c.getDrawingCache();
+
+        OutputStream outputStream = null;
+        File file = Environment.getExternalStorageDirectory();
+        File dir = new File(file.getAbsolutePath() + "/MyPics");
+        dir.mkdirs();
+
+        String filename = String.format("%d.png",System.currentTimeMillis()) + "image.jpg";
+        File outFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),filename);
+
+        try{
+            outputStream = new FileOutputStream(outFile);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if(outputStream == null){
+            Log.d("pula", "handleDownload: ");
+        }
+
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream);
+        try{
+            outputStream.flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        try{
+            outputStream.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //cartesian.saveAsJpg(720, 1280, 0.9, false, "ceva.jpg");
+        Log.d("saved", "handleDownload: " + outFile.getAbsolutePath());
 
     }
 }
+
+
+
+
+
+
+
+
+
+

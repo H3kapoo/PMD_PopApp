@@ -1,5 +1,6 @@
 package com.hekapoo.popapp;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -40,6 +42,9 @@ public class ChartsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.charts_layout);
+
+        ActivityCompat.requestPermissions(ChartsActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        ActivityCompat.requestPermissions(ChartsActivity.this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
 
         //Handlers Init
         recyclerViewCharts = findViewById(R.id.recycler);
