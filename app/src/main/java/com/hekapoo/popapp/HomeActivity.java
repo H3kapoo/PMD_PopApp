@@ -26,6 +26,7 @@ import com.hekapoo.popapp.APIHandler.FacebookAPIHandler;
 import com.hekapoo.popapp.Charts.ChartModel;
 import com.hekapoo.popapp.Charts.TagCloudValuesGenerator;
 import com.hekapoo.popapp.Login.LoginHandler;
+import com.hekapoo.popapp.homeStatus.HomeStatusUpdater;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -200,6 +201,8 @@ public class HomeActivity extends AppCompatActivity {
 
     //Function to pick status text and picture
     private void computeAndSetStatus(int totalLikes,int totalComments){
-
+        //todo today
+       // homeStatusImageView.setImageResource(HomeStatusUpdater.getSuitableImageResource(totalLikes,totalComments));
+        homeStatusTextView.setText(HomeStatusUpdater.getSuitableTextString(totalLikes,totalComments));
     }
 }

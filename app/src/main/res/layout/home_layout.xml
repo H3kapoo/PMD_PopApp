@@ -63,7 +63,7 @@
                             android:fontFamily="@font/tomorrow_regular"
                             android:text="Fans are amazed !"
                             android:textColor="@color/app_text_color"
-                            android:textSize="24sp" />
+                            android:textSize="22sp" />
                     </LinearLayout>
 
                 </LinearLayout>

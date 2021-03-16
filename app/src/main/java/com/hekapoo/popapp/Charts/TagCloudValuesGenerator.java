@@ -13,6 +13,8 @@ public class TagCloudValuesGenerator {
     private static final int COMMS_THRESHOLD_FACTOR = 5;
     private static final String[] LIKES_STRINGS = new String[]{"So hot!","Good looking!","Marvelous!","Fire!","Unheard of!","OMG","Such body!"};
     private static final String[] COMMS_STRINGS = new String[]{"So talkative!","Many comments!","It's lit!","WOW!","Unheard of!","WOAH","Incredible comments!"};
+    private  static final int LIKES_STRINGS_LENGTH = LIKES_STRINGS.length;
+    private  static final int COMMS_STRINGS_LENGTH = COMMS_STRINGS.length;
 
 
     public static ArrayList<DataEntry> getValuesArray(int totalPostLikes,int totalPostComments) {
@@ -21,20 +23,20 @@ public class TagCloudValuesGenerator {
         int initLike=0,initComms=0;
 
         while(initLike < totalPostLikes){
-            int randomLikesStringIndex =  (new Random()).nextInt(7);
+            int randomLikesStringIndex =  (new Random()).nextInt(LIKES_STRINGS_LENGTH);
             tagcloudData.add(new CategoryValueDataEntry(LIKES_STRINGS[randomLikesStringIndex],"Reactions",totalPostLikes));
 
             initLike+=LIKES_THRESHOLD_FACTOR;
         }
 
         while(initComms < totalPostComments){
-            int randomCommsStringIndex =  (new Random()).nextInt(7);
+            int randomCommsStringIndex =  (new Random()).nextInt(COMMS_STRINGS_LENGTH);
             tagcloudData.add(new CategoryValueDataEntry(COMMS_STRINGS[randomCommsStringIndex],"Comments",totalPostComments));
 
             initComms+=COMMS_THRESHOLD_FACTOR;
         }
 
-        return  tagcloudData;
+        return tagcloudData;
     }
 
 }
