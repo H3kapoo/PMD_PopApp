@@ -60,6 +60,8 @@ public class ChartModel {
     private List<DataEntry> data;
     private Bundle extras;
     private Cartesian cartesian;
+    private Pie pie;
+    private TagCloud tagCloud;
 
     public ChartModel(String type, List<DataEntry> data, Bundle extras) {
         this.type = type;
@@ -68,7 +70,7 @@ public class ChartModel {
     }
 
     private TagCloud tagCloudChart() {
-        TagCloud tagCloud = AnyChart.tagCloud();
+        tagCloud = AnyChart.tagCloud();
         tagCloud.background().fill("#F5F9EF");
 
         tagCloud.title(extras.getString("TITLE"));
@@ -89,7 +91,7 @@ public class ChartModel {
     }
 
     private Pie pieChart() {
-        Pie pie = AnyChart.pie();
+        pie = AnyChart.pie();
         pie.background().fill("#F5F9EF");
 
         pie.data(data);
@@ -149,45 +151,36 @@ public class ChartModel {
         }
     }
 
+    @SuppressLint("DefaultLocale")
     public void handleDownload(View v, AnyChartView c) {
 
         c.buildDrawingCache();
         Bitmap bitmap = c.getDrawingCache();
 
         OutputStream outputStream = null;
-        File file = Environment.getExternalStorageDirectory();
-        File dir = new File(file.getAbsolutePath() + "/MyPics");
-        dir.mkdirs();
 
-        String filename = String.format("%d.png",System.currentTimeMillis()) + "image.jpg";
-        File outFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),filename);
+        String type = cartesian != null ? "column" : (pie != null ? "pie" : "tagCloud");
 
-        try{
+        String filename = String.format("%s_%d.png", type, System.currentTimeMillis());
+        File outFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), filename);
+
+        try {
             outputStream = new FileOutputStream(outFile);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(outputStream == null){
-            Log.d("pula", "handleDownload: ");
-        }
-
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream);
-        try{
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        try {
             outputStream.flush();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        try{
+        try {
             outputStream.close();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        //cartesian.saveAsJpg(720, 1280, 0.9, false, "ceva.jpg");
-        Log.d("saved", "handleDownload: " + outFile.getAbsolutePath());
-
     }
 }
 
