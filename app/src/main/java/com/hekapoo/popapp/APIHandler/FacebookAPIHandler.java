@@ -64,19 +64,6 @@ public class FacebookAPIHandler {
         });
     }
 
-    //Function to send api calls on btn click and get the response
-    public void setBtnGraphRequest(Button btn, String endPoint, Bundle bundle, FacebookAPIHandlerCB cb) {
-        if (hasToken())
-            btn.setOnClickListener(e -> {
-                GraphRequest request = GraphRequest.newGraphPathRequest(
-                        AccessToken.getCurrentAccessToken(),
-                        endPoint,
-                        cb::result);
-                request.setParameters(bundle);
-                request.executeAsync();
-            });
-    }
-
     //Function to send api calls and get the response
     public void sendGraphRequest(String endPoint, Bundle bundle, FacebookAPIHandlerCB cb) {
         if (hasToken()) {

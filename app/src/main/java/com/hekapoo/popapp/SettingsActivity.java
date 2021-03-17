@@ -15,7 +15,13 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.hekapoo.popapp.APIHandler.FacebookAPIHandler;
+import com.hekapoo.popapp.APIHandler.TwitterAPIHandler;
 import com.hekapoo.popapp.Login.LoginHandler;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Twitter.initialize(this);
         setContentView(R.layout.settings_layout);
 
         //Handlers Init
@@ -52,6 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d("settings", "Logged into facebook OK");
+                TwitterAPIHandler.getInstance().fastLogout();
                 setLoginButtonsColor();
             }
 
@@ -70,7 +78,20 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
         //Twitter login callback
-        //TODO: WAIT FOR TWITTER APPROVAL :|
+        TwitterAPIHandler.getInstance().login(logTwBtn, this, new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+                Log.d("settings", "Logged into twitter OK");
+                FacebookAPIHandler.getInstance().fastLogout();
+                setLoginButtonsColor();
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                Log.d("settings", "Logged into twitter ERROR");
+
+            }
+        });
 
         //Set charts button handler
         columnBtn.setOnClickListener(e -> {
@@ -191,7 +212,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        FacebookAPIHandler.getInstance().getCallbackManager().onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+        FacebookAPIHandler.getInstance().getCallbackManager().onActivityResult(requestCode, resultCode, data);
+        TwitterAPIHandler.getInstance().getClient().onActivityResult(requestCode,resultCode,data);
     }
 }

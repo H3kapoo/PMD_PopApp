@@ -23,10 +23,16 @@ import com.anychart.chart.common.dataentry.DataEntry;
 import com.anychart.chart.common.dataentry.ValueDataEntry;
 import com.facebook.AccessToken;
 import com.hekapoo.popapp.APIHandler.FacebookAPIHandler;
+import com.hekapoo.popapp.APIHandler.TwitterAPIHandler;
 import com.hekapoo.popapp.Charts.ChartModel;
 import com.hekapoo.popapp.Charts.TagCloudValuesGenerator;
 import com.hekapoo.popapp.Login.LoginHandler;
 import com.hekapoo.popapp.homeStatus.HomeStatusUpdater;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.models.Tweet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +54,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Twitter.initialize(this);
         setContentView(R.layout.home_layout);
 
         //Handlers init
@@ -162,7 +169,50 @@ public class HomeActivity extends AppCompatActivity {
 
     //Function to fetch and plot data from twitter to chart
     private void fetchAndPlotTwitterData() {
-        //TODO Wait for twitter approval :|
+        Log.d("HOME", "tw has token OK");
+
+        //get data we need from twitter (req already setup in the function body)
+        TwitterAPIHandler.getInstance().sendGraphRequest(new Callback<List<Tweet>>() {
+            @Override
+            public void success(Result<List<Tweet>> result) {
+
+                List<DataEntry> chartData = new ArrayList<>();
+                int totalPostLikes = 0, totalPostComments = 0;
+
+                for (Tweet t : result.data) {
+                    totalPostLikes += t.favoriteCount;
+                    totalPostComments += t.retweetCount;
+
+                    Log.d("HOME", "POST LIKES " + t.favoriteCount + " COMMENTS " + t.retweetCount);
+                }
+
+                //Get chart type from preferences
+                SharedPreferences settings = getSharedPreferences("ChartInfo", 0);
+                String chartType = settings.getString("CHART_TYPE", "COLUMN");
+
+                if (chartType.equals("TAG_CLOUD"))
+                    chartData = TagCloudValuesGenerator.getValuesArray(totalPostLikes, totalPostComments);
+                else {
+                    chartData.add(new ValueDataEntry("Reactions", totalPostLikes));
+                    chartData.add(new ValueDataEntry("Comments", totalPostComments));
+                }
+
+                Bundle chartExtras = new Bundle();
+
+                ChartModel homeChartModel = new ChartModel(chartType, chartData, chartExtras);
+                homeChart.setChart(homeChartModel.populate());
+
+                computeAndSetStatus(totalPostLikes,totalPostComments);
+                refresher.setRefreshing(false);
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                Log.d("HOME", "TWITTER EXCEPTION THROWN " + exception.toString());
+                loadNotPopulatedChart();
+            }
+        });
+
     }
 
     //Function to determine the social and call fetch and plot for it
@@ -201,7 +251,7 @@ public class HomeActivity extends AppCompatActivity {
 
     //Function to pick status text and picture
     private void computeAndSetStatus(int totalLikes,int totalComments){
-        //todo today
+        //todo today,yeah sure
        // homeStatusImageView.setImageResource(HomeStatusUpdater.getSuitableImageResource(totalLikes,totalComments));
         homeStatusTextView.setText(HomeStatusUpdater.getSuitableTextString(totalLikes,totalComments));
     }

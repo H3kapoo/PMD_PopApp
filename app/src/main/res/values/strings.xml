@@ -2,4 +2,6 @@
     <string name="facebook_app_id">759355918349184</string>
     <string name="fb_login_protocol_scheme">fb759355918349184</string>
     <string name="app_name">PopApp</string>
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">c62qVxjN3FNh5o82kZxHqCnnQ</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">Pt2lAeWHHoYBuvZtt9MGG4DTmFRwS1rpN96NRKXIt6Da2eQ6NP</string>
 </resources>

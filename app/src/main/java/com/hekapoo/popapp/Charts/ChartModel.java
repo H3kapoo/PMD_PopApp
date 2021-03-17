@@ -42,6 +42,7 @@ import com.anychart.graphics.vector.Stroke;
 import com.anychart.scales.OrdinalColor;
 import com.hekapoo.popapp.ChartsActivity;
 import com.hekapoo.popapp.HomeActivity;
+import com.hekapoo.popapp.Login.LoginHandler;
 import com.hekapoo.popapp.R;
 
 import java.io.File;
@@ -161,7 +162,11 @@ public class ChartModel {
 
         String type = cartesian != null ? "column" : (pie != null ? "pie" : "tagCloud");
 
-        String filename = String.format("%s_%d.png", type, System.currentTimeMillis());
+        int loginType = LoginHandler.getInstance().getLoginType();
+
+        String socialType = loginType == 1 ? "Facebook" : (loginType == 2 ? "Twitter" : "unknown");
+
+        String filename = String.format("%s_%s_%d.png", socialType, type, System.currentTimeMillis());
         File outFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), filename);
 
         try {
