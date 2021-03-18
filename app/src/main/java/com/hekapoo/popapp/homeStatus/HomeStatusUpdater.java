@@ -3,6 +3,7 @@ package com.hekapoo.popapp.homeStatus;
 import android.util.Log;
 
 import com.anychart.chart.common.dataentry.CategoryValueDataEntry;
+import com.hekapoo.popapp.R;
 
 import java.util.Random;
 
@@ -12,7 +13,7 @@ public class HomeStatusUpdater {
     private static final int NEUTRAL_THRESHOLD = 140;
 
 
-    private static final int[] IMAGES_ID = new int[]{0, 1, 2}; //sustitute with R.drawable. bad -> good
+    private static final int[] IMAGES_ID = new int[]{R.drawable.ic_negative_face, R.drawable.ic_neutral_face, R.drawable.ic_good_face}; //sustitute with R.drawable. bad -> good
     private static final String[] TEXT_STRINGS_POSITIVE = new String[]{"Fans are very talkative!", "You're doing very well!"};
     private static final String[] TEXT_STRINGS_NEUTRAL = new String[]{"You're doing ok buddy!", "They appreciate you"};
     private static final String[] TEXT_STRINGS_NEGATIVE = new String[]{"This is bad..", "Maybe change style?"};

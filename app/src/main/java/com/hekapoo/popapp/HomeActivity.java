@@ -157,7 +157,7 @@ public class HomeActivity extends AppCompatActivity {
                 ChartModel homeChartModel = new ChartModel(chartType, chartData, chartExtras);
                 homeChart.setChart(homeChartModel.populate());
 
-                computeAndSetStatus(totalPostLikes,totalPostComments);
+                computeAndSetStatus(totalPostLikes, totalPostComments);
 
             } catch (JSONException e) {
                 Log.d("HOME", "JSON EXCEPTION THROWN " + e.toString());
@@ -202,7 +202,7 @@ public class HomeActivity extends AppCompatActivity {
                 ChartModel homeChartModel = new ChartModel(chartType, chartData, chartExtras);
                 homeChart.setChart(homeChartModel.populate());
 
-                computeAndSetStatus(totalPostLikes,totalPostComments);
+                computeAndSetStatus(totalPostLikes, totalPostComments);
                 refresher.setRefreshing(false);
             }
 
@@ -237,6 +237,7 @@ public class HomeActivity extends AppCompatActivity {
     private void loadNotPopulatedChart() {
         homeStatusTextView.setText("No status available");
         homeCurrentSocialTextView.setText("No social connected!\nGo to settings to log in");
+        homeStatusImageView.setImageResource(R.drawable.ic_no_status_face);
         List<DataEntry> columnData = new ArrayList<>();
         columnData.add(new ValueDataEntry("Reactions", 0));
         columnData.add(new ValueDataEntry("Comments", 0));
@@ -250,9 +251,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     //Function to pick status text and picture
-    private void computeAndSetStatus(int totalLikes,int totalComments){
-        //todo today,yeah sure
-       // homeStatusImageView.setImageResource(HomeStatusUpdater.getSuitableImageResource(totalLikes,totalComments));
-        homeStatusTextView.setText(HomeStatusUpdater.getSuitableTextString(totalLikes,totalComments));
+    private void computeAndSetStatus(int totalLikes, int totalComments) {
+        homeStatusImageView.setImageResource(HomeStatusUpdater.getSuitableImageResource(totalLikes, totalComments));
+        homeStatusTextView.setText(HomeStatusUpdater.getSuitableTextString(totalLikes, totalComments));
     }
 }
