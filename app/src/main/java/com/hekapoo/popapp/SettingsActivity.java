@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -152,11 +153,13 @@ public class SettingsActivity extends AppCompatActivity {
         //Set nav buttons handlers
         chartsBtn.setOnClickListener(e -> {
             Intent intent = new Intent(SettingsActivity.this, ChartsActivity.class);
+            Toast.makeText(SettingsActivity.this, "Navigating to Charts",Toast.LENGTH_SHORT).show();
             startActivity(intent);
         });
 
         homeBtn.setOnClickListener(e -> {
             Intent intent = new Intent(SettingsActivity.this, HomeActivity.class);
+            Toast.makeText(SettingsActivity.this, "Navigating to Home",Toast.LENGTH_SHORT).show();
             startActivity(intent);
         });
     }

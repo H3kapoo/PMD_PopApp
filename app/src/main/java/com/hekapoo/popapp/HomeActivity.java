@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -101,11 +102,13 @@ public class HomeActivity extends AppCompatActivity {
         //Set buttons on click listener
         chartsBtn.setOnClickListener(e -> {
             Intent intent = new Intent(HomeActivity.this, ChartsActivity.class);
+            Toast.makeText(HomeActivity.this, "Navigating to Charts",Toast.LENGTH_SHORT).show();
             startActivity(intent);
         });
 
         settingsBtn.setOnClickListener(e -> {
             Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
+            Toast.makeText(HomeActivity.this, "Navigating to Settings",Toast.LENGTH_SHORT).show();
             startActivity(intent);
         });
     }

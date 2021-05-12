@@ -5,11 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.anychart.AnyChartView;
+import com.hekapoo.popapp.ChartsActivity;
 import com.hekapoo.popapp.R;
 
 import java.util.ArrayList;
@@ -44,7 +46,10 @@ public class ChartModelAdapter extends RecyclerView.Adapter<ChartModelAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChartModel chart = charts.get(position);
         holder.chartView.setChart(chart.populate());
-        holder.view.findViewById(R.id.download_btn).setOnClickListener(e-> chart.handleDownload(e,holder.chartView));
+        holder.view.findViewById(R.id.download_btn).setOnClickListener(e -> {
+            Toast.makeText(e.getContext(), "Saving chart..",Toast.LENGTH_SHORT).show();
+            chart.handleDownload(e, holder.chartView);
+        });
 
     }
 
